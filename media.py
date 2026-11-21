@@ -741,7 +741,7 @@ def _image_type(data: bytes) -> str:
 
 def _get_capped(session, url: str, cap: int) -> bytes:
     with session.get(url, timeout=PAGE_COVER_TIMEOUT_S, stream=True,
-                     headers={"User-Agent": "Touch-Dashboard"}) as r:
+                     headers={"User-Agent": "Detent"}) as r:
         r.raise_for_status()
         data = b""
         for chunk in r.iter_content(64 * 1024):

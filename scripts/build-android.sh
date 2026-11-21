@@ -25,7 +25,7 @@ VERSION_CODE=$(( 10#${BASH_REMATCH[1]} * 1000000 + 10#${BASH_REMATCH[2]} * 1000 
 VERSION_NAME="${VERSION#v}"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-OUT="$(realpath -m "${2:-$ROOT/TouchDashboard-$VERSION.apk}")"
+OUT="$(realpath -m "${2:-$ROOT/Detent-$VERSION.apk}")"
 SDK="${ANDROID_SDK:-${ANDROID_HOME:-$HOME/Android/Sdk}}"
 BUILD_TOOLS="$SDK/build-tools/35.0.0"
 ANDROID_JAR="$SDK/platforms/android-35/android.jar"
@@ -50,7 +50,7 @@ BUILD="$(mktemp -d)"
 trap 'rm -rf "$BUILD"' EXIT
 cd "$ROOT"
 
-echo "Building TouchDashboard $VERSION (versionCode $VERSION_CODE)..."
+echo "Building Detent $VERSION (versionCode $VERSION_CODE)..."
 
 # 1. The dashboard, as the app's assets.
 mkdir -p "$BUILD/assets/www"

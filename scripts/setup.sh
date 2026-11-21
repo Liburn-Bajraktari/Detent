@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 # Detent Linux Installer
-# Run via: bash -c "$(curl -fsSL https://raw.githubusercontent.com/Liburn-Bajraktari/Touch-Dashboard/main/scripts/setup.sh)" < /dev/tty
+# Run via: bash -c "$(curl -fsSL https://raw.githubusercontent.com/Liburn-Bajraktari/Detent/main/scripts/setup.sh)" < /dev/tty
 
 set -e
 
 REPO_OWNER="Liburn-Bajraktari"
-REPO_NAME="Touch-Dashboard"
-INSTALL_DIR="${TARGET_DIR:-$HOME/.local/share/$REPO_NAME}"
+REPO_NAME="Detent"
+# The install folder keeps its name from before the rename to Detent, so updates land in place.
+INSTALL_DIR="${TARGET_DIR:-$HOME/.local/share/Touch-Dashboard}"
 DESKTOP_ENTRY_DIR="$HOME/.local/share/applications"
 API_URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME"
 RELEASES_URL="https://github.com/$REPO_OWNER/$REPO_NAME/releases/download"
@@ -46,7 +47,7 @@ for r in json.load(sys.stdin):
 # Download release $RELEASE_TAG's source archive into $1 and check it against
 # the SHA256SUMS published with it. Prints the archive's path.
 fetch_release_archive() {
-    local dir="$1" archive="touch-dashboard-$RELEASE_TAG.tar.gz"
+    local dir="$1" archive="detent-$RELEASE_TAG.tar.gz"
     curl -fsSL "$RELEASES_URL/$RELEASE_TAG/SHA256SUMS" -o "$dir/SHA256SUMS" || return 1
     curl -fL -# "$RELEASES_URL/$RELEASE_TAG/$archive" -o "$dir/$archive" || return 1
     # No line for the archive means no checked lines, which sha256sum -c fails.
@@ -308,7 +309,7 @@ get_apk() {
     
     # Extract browser_download_url using grep/sed since jq might not be installed
     DOWNLOAD_URL=$(echo "$LATEST_JSON" | grep -o '"browser_download_url": *"[^"]*apk"' | head -1 | cut -d'"' -f4)
-    FILE_NAME=$(basename "$DOWNLOAD_URL" 2>/dev/null || echo "TouchDashboard.apk")
+    FILE_NAME=$(basename "$DOWNLOAD_URL" 2>/dev/null || echo "Detent.apk")
     
     if [ -n "$DOWNLOAD_URL" ]; then
         write_color "  [+] Found APK: $FILE_NAME" "$GREEN"

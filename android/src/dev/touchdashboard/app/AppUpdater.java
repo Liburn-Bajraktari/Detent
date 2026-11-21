@@ -53,7 +53,7 @@ final class AppUpdater {
         void onUpdateEvent(JSONObject event);
     }
 
-    static final String RELEASES = "https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases/download/";
+    static final String RELEASES = "https://github.com/Liburn-Bajraktari/Detent/releases/download/";
     private static final Pattern TAG = Pattern.compile("v\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
     private static final Pattern SUM_LINE = Pattern.compile("(?m)^([0-9a-fA-F]{64})\\s+\\*?(\\S+)\\s*$");
     private static final long MAX_APK_BYTES = 64L * 1024 * 1024;
@@ -165,7 +165,7 @@ final class AppUpdater {
     // ── Download and checks ─────────────────────────────────────────────────
 
     private File downloadAndCheck(String tag) throws IOException, UpdateError {
-        String apkName = "TouchDashboard-" + tag + ".apk";
+        String apkName = "Detent-" + tag + ".apk";
         File dir = new File(activity.getCacheDir(), "updates");
         clearDir(dir);
         if (!dir.mkdirs() && !dir.isDirectory()) throw new IOException("cannot create " + dir);
@@ -264,7 +264,7 @@ final class AppUpdater {
         c.setInstanceFollowRedirects(true);   // https → https only (HttpURLConnection never downgrades)
         c.setConnectTimeout(15000);
         c.setReadTimeout(30000);
-        c.setRequestProperty("User-Agent", "TouchDashboard-Android");
+        c.setRequestProperty("User-Agent", "Detent-Android");
         int code = c.getResponseCode();
         if (code == 404) throw new UpdateError("not_found", "Release file not found: " + url);
         if (code != 200) throw new UpdateError("network", "HTTP " + code + " for " + url);

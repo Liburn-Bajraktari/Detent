@@ -1572,7 +1572,7 @@ async def broadcast_config_sync():
 
 # Check for updates on GitHub. Releases are still mirrored to Codeberg by
 # release.sh, but only for installs that predate the move and poll it.
-RELEASES_API_URL = "https://api.github.com/repos/Liburn-Bajraktari/Touch-Dashboard/releases"
+RELEASES_API_URL = "https://api.github.com/repos/Liburn-Bajraktari/Detent/releases"
 
 
 async def check_for_updates() -> dict:
@@ -1614,12 +1614,14 @@ async def check_for_updates() -> dict:
                     continue
                     
                 # Find the newest APK asset across recent releases
+                # Releases since the rename to Detent also carry a TouchDashboard-<tag>.apk
+                # copy for older tablets; this one is offered when present.
                 if not apk_url_found:
-                    for asset in release.get("assets", []):
-                        if asset.get("name", "").endswith(".apk"):
-                            update_apk_url = asset.get("browser_download_url", "")
-                            apk_url_found = True
-                            break
+                    apks = [a for a in release.get("assets", []) if a.get("name", "").endswith(".apk")]
+                    apks.sort(key=lambda a: not a.get("name", "").startswith("Detent-"))
+                    if apks:
+                        update_apk_url = apks[0].get("browser_download_url", "")
+                        apk_url_found = True
                             
                 # Check for desktop update (ignore tags starting with apk-)
                 if not desktop_checked and not tag.lower().startswith("apk-"):
@@ -2199,7 +2201,7 @@ async def bnet_callback(code: str | None = None, state: str | None = None, error
 
 _update_running = False
 RELEASE_TAG_RE       = re.compile(r"v\d+\.\d+\.\d+")
-RELEASE_DOWNLOAD_URL = "https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases/download"
+RELEASE_DOWNLOAD_URL = "https://github.com/Liburn-Bajraktari/Detent/releases/download"
 SUMS_MAX_BYTES       = 64 * 1024
 INSTALLER_MAX_BYTES  = 1 << 20
 SETUP_MAX_BYTES      = 400 << 20      # the frozen Windows app's installer (packaging/windows)
@@ -2240,7 +2242,7 @@ def _fetch_verified_installer(tag: str) -> str:
     expected = sums.get(name, "")
     if not expected or not hmac.compare_digest(hashlib.sha256(body).hexdigest(), expected):
         raise ValueError(f"{name} of {tag} does not match its SHA256SUMS")
-    fd, path = tempfile.mkstemp(prefix="touch-dashboard-update-", suffix=os.path.splitext(name)[1])
+    fd, path = tempfile.mkstemp(prefix="detent-update-", suffix=os.path.splitext(name)[1])
     with os.fdopen(fd, "wb") as f:
         f.write(body)
     return path
@@ -2250,7 +2252,7 @@ def _installer_name(tag: str) -> str:
     """What updates this install: the frozen app's installer (built by the
     release workflow on Windows), else the script that set it up."""
     if FROZEN:
-        return f"TouchDashboard-Setup-{tag}.exe"
+        return f"Detent-Setup-{tag}.exe"
     return "setup.sh" if get_os_target() == "linux" else "install.ps1"
 
 

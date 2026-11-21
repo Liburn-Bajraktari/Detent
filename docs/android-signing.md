@@ -15,7 +15,7 @@ The Android app lives in `android/`: a manifest, resources and a few Java classe
 ## Build
 
 ```bash
-./scripts/build-android.sh v1.2.3                  # writes TouchDashboard-v1.2.3.apk
+./scripts/build-android.sh v1.2.3                  # writes Detent-v1.2.3.apk
 ./scripts/build-android.sh v1.2.3 /tmp/test.apk    # somewhere else
 ```
 
@@ -24,8 +24,8 @@ The script bundles `templates/index.html` and `static/` as `assets/www`, stamps 
 Check a build:
 
 ```bash
-~/Android/Sdk/build-tools/35.0.0/aapt2 dump badging TouchDashboard-v1.2.3.apk | head -3
-~/Android/Sdk/build-tools/35.0.0/apksigner verify --print-certs TouchDashboard-v1.2.3.apk
+~/Android/Sdk/build-tools/35.0.0/aapt2 dump badging Detent-v1.2.3.apk | head -3
+~/Android/Sdk/build-tools/35.0.0/apksigner verify --print-certs Detent-v1.2.3.apk
 ```
 
 ## The release key
@@ -61,7 +61,7 @@ Then write `~/.config/touch-dashboard/android-release.properties` with the four 
 
 1. The PC's `config_sync` carries `update_apk_url` (the newest published, non-pre-release release with an APK) and `req_apk_version`.
 2. The page compares them with the app's version (`window.TDAndroid.info()`, also in the user agent as `TouchDashboard/x.y.z`) and offers or requires the update.
-3. `TDAndroid.update(tag)` hands only the tag to the app. `AppUpdater` downloads `SHA256SUMS` and `TouchDashboard-<tag>.apk` from this repository's release over HTTPS, checks the checksum, the package name, that the version is newer and that the signing certificate matches its own.
+3. `TDAndroid.update(tag)` hands only the tag to the app. `AppUpdater` downloads `SHA256SUMS` and `Detent-<tag>.apk` from this repository's release over HTTPS, checks the checksum, the package name, that the version is newer and that the signing certificate matches its own.
 4. If Android does not yet let the app install packages, it opens that switch ("Install unknown apps") and waits for the user to come back.
 5. It hands the APK to Android's package installer as a sideloaded file (`ACTION_INSTALL_PACKAGE` with a read-only `content://dev.touchdashboard.app.updates/...` URI from `UpdateFileProvider`). Android asks to confirm, installs, and ends on "App installed" with an **Open** button. A `PackageInstaller` session was used before and is not: its dialog just closes, and the replaced app, killed by the update, never comes back.
 6. `PackageReplacedReceiver` also tries to reopen the app on `MY_PACKAGE_REPLACED`, only after an update the app started (a marker file). Android 10 and newer usually refuse that background start; the installer's **Open** button is the dependable way back. If the dashboard comes back to the front with the update still pending, it was cancelled or failed, and the page says so.
@@ -69,7 +69,7 @@ Then write `~/.config/touch-dashboard/android-release.properties` with the four 
 ## Testing on a device
 
 ```bash
-adb install -r TouchDashboard-v1.2.3.apk        # same key: installs over the existing app
+adb install -r Detent-v1.2.3.apk        # same key: installs over the existing app
 adb logcat -s AndroidRuntime PackageInstaller   # if something fails
 ```
 
