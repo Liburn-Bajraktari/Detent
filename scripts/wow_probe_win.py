@@ -1,4 +1,4 @@
-"""What Touch Dashboard sees of WoW's window on this Windows PC: run it with
+"""What Detent sees of WoW's window on this Windows PC: run it with
 WoW open (or --fake for a stand-in window), the companion's live link on.
 
     python scripts/wow_probe_win.py [--fake] [--reads 30] [--png top.png]

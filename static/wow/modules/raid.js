@@ -384,7 +384,7 @@
 
     function nextIdle(api) {
         const g = api.view('game');
-        if (!(g && g.live && g.live.link)) return 'Alerts come with the live link: the Touch Dashboard addon on, WoW running.';
+        if (!(g && g.live && g.live.link)) return 'Alerts come with the live link: the Detent addon on, WoW running.';
         return 'Your boss mod’s next ability and NSRT’s alerts show here during an encounter.';
     }
 

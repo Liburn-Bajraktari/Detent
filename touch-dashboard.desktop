@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=Touch Dashboard
-Comment=Native desktop wrapper for the Touch Dashboard FastAPI app
+Name=Detent
+Comment=Native desktop wrapper for the Detent FastAPI app
 Exec=/usr/bin/touch-dashboard
 Icon=touch-dashboard
 Terminal=false

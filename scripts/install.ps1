@@ -1,7 +1,7 @@
 param (
     [switch]$Unattended
 )
-# Touch Dashboard's Windows installer: install, update, repair, uninstall.
+# Detent's Windows installer: install, update, repair, uninstall.
 #
 # ASCII only, on purpose: Windows PowerShell 5.1 reads a script without a
 # byte order mark in the ANSI code page, where UTF-8 box characters turn into
@@ -65,7 +65,7 @@ function Get-ReleaseTag {
         $tag = ($releases | Where-Object { $_.tag_name -match '^v\d+\.\d+\.\d+$' -and -not $_.draft -and -not $_.prerelease } |
             Select-Object -First 1).tag_name
     }
-    if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw "No Touch Dashboard release to install was found on GitHub." }
+    if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw "No Detent release to install was found on GitHub." }
     return $tag
 }
 
@@ -148,7 +148,7 @@ function Get-Python {
     if ($Auto) { throw "No Python 3.11 to 3.13 to make the app's environment with." }
     Write-Color "  [!] Python 3.11 to 3.13 was not found." "Yellow"
     $install = Read-Host "  Install Python 3.12 with winget? (Y/N)"
-    if ($install -notmatch "^[yY]") { throw "Python is needed to run Touch Dashboard." }
+    if ($install -notmatch "^[yY]") { throw "Python is needed to run Detent." }
     winget install Python.Python.3.12 --silent --accept-package-agreements --accept-source-agreements
     $exe = Find-Python
     if (-not $exe) { throw "Python was installed, but this window cannot see it yet: open a new one and run the installer again." }
@@ -203,8 +203,12 @@ Set objShell = CreateObject("WScript.Shell")
 objShell.Run """$InstallDir\.venv\Scripts\pythonw.exe"" ""$InstallDir\server.py""", 0, False
 "@
     Set-Content -Path $VbsLauncher -Value $vbsContent -Encoding Unicode
+    # Shortcuts made before the rename to Detent
+    foreach ($old in @("$DesktopPath\Touch Dashboard.lnk", "$StartMenuPath\Touch Dashboard.lnk")) {
+        if (Test-Path $old) { Remove-Item $old -Force }
+    }
     $WshShell = New-Object -ComObject WScript.Shell
-    foreach ($lnk in @("$DesktopPath\Touch Dashboard.lnk", "$StartMenuPath\Touch Dashboard.lnk")) {
+    foreach ($lnk in @("$DesktopPath\Detent.lnk", "$StartMenuPath\Detent.lnk")) {
         $Shortcut = $WshShell.CreateShortcut($lnk)
         $Shortcut.TargetPath = "wscript.exe"
         $Shortcut.Arguments = """$VbsLauncher"""
@@ -267,10 +271,10 @@ function Get-Release {
 }
 
 function Install-Update {
-    Write-Color "`n=== Installing / Updating Touch Dashboard ===" "Cyan"
+    Write-Color "`n=== Installing / Updating Detent ===" "Cyan"
     try {
         $tag = Get-ReleaseTag
-        Write-Step "Downloading Touch Dashboard $tag from GitHub" 10
+        Write-Step "Downloading Detent $tag from GitHub" 10
         $from = Get-Release $tag
         Write-Step "Extracted" 50
     } catch {
@@ -283,13 +287,13 @@ function Install-Update {
         $env:TD_STAGED = $from
         Start-Process powershell.exe -WindowStyle Hidden -ArgumentList @(
             "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "`"$PSCommandPath`"")
-        Write-Step "Touch Dashboard closes now and opens again once $tag is installed" 60
+        Write-Step "Detent closes now and opens again once $tag is installed" 60
         Write-Output "TD-HANDOFF"
         exit 0
     }
 
     if (Get-AppProcesses) {
-        Write-Color "  [!] Touch Dashboard is running." "Yellow"
+        Write-Color "  [!] Detent is running." "Yellow"
         $ans = Read-Host "  Close it to continue updating? (Y/N)"
         if ($ans -notmatch "^[Yy]$") { return Stop-Installer "Cannot update while the application is running." }
         Write-Color "[*] Stopping it..." "Cyan"
@@ -306,10 +310,10 @@ function Install-Update {
         return Stop-Installer $_.Exception.Message
     }
     Set-FirewallRule
-    $startup = Read-Host "[?] Start Touch Dashboard when you sign in to Windows? (Y/N)"
+    $startup = Read-Host "[?] Start Detent when you sign in to Windows? (Y/N)"
     Set-StartWithWindows ($startup -match "^[Yy]$")
     Write-Color "`n[+] Installation Complete!" "Green"
-    $launch = Read-Host "[?] Would you like to launch Touch Dashboard now? (Y/N)"
+    $launch = Read-Host "[?] Would you like to launch Detent now? (Y/N)"
     if ($launch -match "^[Yy]$") { Start-App }
     Read-Host "`nPress Enter to return to menu..."
 }
@@ -367,15 +371,16 @@ function Repair-Installation {
 }
 
 function Uninstall-App {
-    Write-Color "`n=== Uninstall Touch Dashboard ===" "Cyan"
+    Write-Color "`n=== Uninstall Detent ===" "Cyan"
     $confirm = Read-Host "Are you sure you want to completely uninstall? (Y/N)"
     if ($confirm -match "^[yY]") {
-        Write-Color "[*] Stopping Touch Dashboard..." "Cyan"
+        Write-Color "[*] Stopping Detent..." "Cyan"
         Stop-App
         Write-Color "[*] Removing application files..." "Cyan"
         if (Test-Path $InstallDir) { Remove-Item -Recurse -Force $InstallDir }
         Write-Color "[*] Removing shortcuts and start with Windows..." "Cyan"
-        foreach ($lnk in @("$DesktopPath\Touch Dashboard.lnk", "$StartMenuPath\Touch Dashboard.lnk")) {
+        foreach ($lnk in @("$DesktopPath\Detent.lnk", "$StartMenuPath\Detent.lnk",
+                           "$DesktopPath\Touch Dashboard.lnk", "$StartMenuPath\Touch Dashboard.lnk")) {
             if (Test-Path $lnk) { Remove-Item $lnk -Force }
         }
         Set-StartWithWindows $false
@@ -444,7 +449,7 @@ while ($true) {
     Write-Host "     |_|\___/ \__,_|\___|_| |_| |____/ \__,_|___/_| |_|_.__/ \___/ \__,_|_|  \__,_|" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "   +----------------------------------------------------------+" -ForegroundColor DarkGray
-    Write-Host "   |   " -ForegroundColor DarkGray -NoNewline; Write-Host " 1 " -ForegroundColor Cyan -NoNewline; Write-Host "   Install / Update Touch Dashboard                 " -ForegroundColor White -NoNewline; Write-Host "|" -ForegroundColor DarkGray
+    Write-Host "   |   " -ForegroundColor DarkGray -NoNewline; Write-Host " 1 " -ForegroundColor Cyan -NoNewline; Write-Host "   Install / Update Detent                 " -ForegroundColor White -NoNewline; Write-Host "|" -ForegroundColor DarkGray
     Write-Host "   |   " -ForegroundColor DarkGray -NoNewline; Write-Host " 2 " -ForegroundColor Yellow -NoNewline; Write-Host "   Repair Existing Installation                     " -ForegroundColor Gray -NoNewline; Write-Host "|" -ForegroundColor DarkGray
     Write-Host "   |   " -ForegroundColor DarkGray -NoNewline; Write-Host " 3 " -ForegroundColor Red -NoNewline; Write-Host "   Completely Uninstall                             " -ForegroundColor Gray -NoNewline; Write-Host "|" -ForegroundColor DarkGray
     Write-Host "   |   " -ForegroundColor DarkGray -NoNewline; Write-Host " 4 " -ForegroundColor Green -NoNewline; Write-Host "   Download Android APK Client                      " -ForegroundColor Gray -NoNewline; Write-Host "|" -ForegroundColor DarkGray

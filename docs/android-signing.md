@@ -52,7 +52,7 @@ Only when starting over (it forces the reinstall described above):
 
 ```bash
 keytool -genkeypair -keystore ~/.config/touch-dashboard/android-release.jks -storetype PKCS12 \
-  -alias touch-dashboard -keyalg RSA -keysize 4096 -validity 11000 -dname "CN=Touch Dashboard"
+  -alias touch-dashboard -keyalg RSA -keysize 4096 -validity 11000 -dname "CN=Detent"
 ```
 
 Then write `~/.config/touch-dashboard/android-release.properties` with the four keys above and `chmod 600` both files.

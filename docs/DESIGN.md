@@ -1,4 +1,4 @@
-# Touch Dashboard — Design System
+# Detent — Design System
 
 One place for the rules behind the UI.
 
@@ -14,7 +14,7 @@ If a value is not in `themes.js`, it is not part of the design. If a rule here a
 
 ## 1. The idea: a broadcast console
 
-Touch Dashboard is a piece of studio hardware that happens to be made of pixels: the kind of desk unit a streamer keeps beside the PC (a RØDECaster, a GoXLR, a Stream Deck), built with the depth, light and motion of a 2026 interface. Every component is an object from that world:
+Detent is a piece of studio hardware that happens to be made of pixels: the kind of desk unit a streamer keeps beside the PC (a RØDECaster, a GoXLR, a Stream Deck), built with the depth, light and motion of a 2026 interface. Every component is an object from that world:
 
 | On the screen | The object it is |
 |---|---|
@@ -56,7 +56,7 @@ One light, above the console. Every rule below follows from it, and nothing may 
 
 1. **Colour belongs to data, state and light.** Plates, keys and text are neutral. One accent per theme carries the levels; status hues carry meaning (red muted, green live/speaking, amber attention; a live stream's on-air light is red too, a tally as on any broadcast, and says LIVE beside it); the cover's colour carries the music. The accent and the three status hues stay at least 0.11 apart in OKLab (tested), so a lit key, an LED and a load trace never look alike. When the accent takes a status hue's colour family (Phosphor's green, Ember's amber), the status hue moves, not the accent.
 2. **Displays hold the numbers.** Values that change live (levels, battery, load, device names) sit in recessed display windows in tabular figures. Static labels sit on the plate.
-3. **Sentence case.** "Now playing", "Output device", "Save & apply". Proper names keep their capitals ("Command Center").
+3. **Sentence case.** "Now playing", "Output device", "Save & apply". Proper names keep their capitals ("Detent").
 4. **Value balance.** Large neighbouring surfaces (ground, plates, keys, wells, displays) stay within 1.5:1 of each other (tested); the extreme values belong to text and small details. On a light theme, near-black is for text and icons only, never containers or readouts (Daylight: under 1 % of the screen).
 5. **Lit keys share one recipe.** A key that is on (live, muted, camera on) is a bright status fill with dark ink, like a backlit cap. Mute is no exception: it is a lit red key, not a dark red one with white ink.
 6. **Honest data. Missing is an em dash; a real zero prints. The load traces are the actual last minute of samples. The progress bar appears only when the player reports a length.

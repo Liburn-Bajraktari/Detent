@@ -319,7 +319,7 @@ def _sync(ctx: Context, args: dict) -> None:
 MODULE = AddonModule(
     id="game",
     name="Game state",
-    description="Buffs, gold, bags, keystone and vault from the Touch Dashboard addon, for every character",
+    description="Buffs, gold, bags, keystone and vault from the Detent addon, for every character",
     order=3,
     commands=(
         Command("game_sync", "Read the game", run=_sync, glyph="refresh-ccw", key="tools",

@@ -47,7 +47,7 @@
         no_check: 'The PC cannot see WoW’s window to check the addon',
         no_bossmod: 'A break needs BigWigs, DBM or NSRT in the game',
         in_combat: 'Key slots change after combat: try again then',
-        no_companion: 'Install the Touch Dashboard addon (WoW settings on the PC)',
+        no_companion: 'Install the Detent addon (WoW settings on the PC)',
         no_folder: 'No AddOns folder: set the game folder first',
     };
     const OPEN_MS = 420, CLOSE_MS = 320;
@@ -829,7 +829,7 @@
             + '<div class="wow-keyed-args"></div>'
             + '<div class="wow-keyed-custom" hidden>'
             + '<div class="form-group"><label for="wow-keyed-lines">Command (one a line)</label><textarea id="wow-keyed-lines" rows="3" spellcheck="false" placeholder="/details toggle"></textarea></div>'
-            + '<div class="form-group"><label for="wow-keyed-via">Sent</label><select id="wow-keyed-via"><option value="auto">As its first word says</option><option value="addon">Through the Touch Dashboard addon</option><option value="game">Typed into chat (Blizzard’s commands)</option></select></div>'
+            + '<div class="form-group"><label for="wow-keyed-via">Sent</label><select id="wow-keyed-via"><option value="auto">As its first word says</option><option value="addon">Through the Detent addon</option><option value="game">Typed into chat (Blizzard’s commands)</option></select></div>'
             + '</div>'
             + '<div class="form-group wow-keyed-slot"><label for="wow-keyed-slot">Key slot</label><select id="wow-keyed-slot"></select><p class="settings-sub wow-keyed-slot-note"></p></div>'
             + '<div class="form-group"><span class="form-label">Glyph</span><div class="wow-glyphs" role="radiogroup" aria-label="Glyph"></div></div>'
@@ -913,7 +913,7 @@
         slotSel.disabled = !admin();
         slotSel.onchange = () => { ked.slot = slotSel.value; };
         text(q('.wow-keyed-slot-note'), admin()
-            ? (server.companion && server.companion.installed ? 'One key press in game, in combat too: the Touch Dashboard addon holds the command.' : 'One key press in game, in combat too. In WoW, make a macro with this key’s command and bind it to these keys.')
+            ? (server.companion && server.companion.installed ? 'One key press in game, in combat too: the Detent addon holds the command.' : 'One key press in game, in combat too. In WoW, make a macro with this key’s command and bind it to these keys.')
             : 'Set on the PC.');
         drawCommandList();
         choose(ked.sel, true);
@@ -1197,7 +1197,7 @@
         }
         if (msg.type === 'wow_companion_result') {
             tdNotice(d.ok
-                ? { title: 'Touch Dashboard addon installed', text: `Version ${d.version}. In WoW, /reload (or log in) and make sure it is on in the AddOns list.`, icon: 'check-circle-2', tone: 'positive' }
+                ? { title: 'Detent addon installed', text: `Version ${d.version}. In WoW, /reload (or log in) and make sure it is on in the AddOns list.`, icon: 'check-circle-2', tone: 'positive' }
                 : { title: 'Not installed', text: REASONS[d.reason] || REASONS.failed, icon: 'alert-triangle', tone: 'warning' });
             return;
         }
@@ -1285,7 +1285,7 @@
                 : `It last answered ${cs.answered < 90 ? `${cs.answered} s` : `${Math.round(cs.answered / 60)} min`} ago; its live link is not showing (/tdc link on in WoW).`;
         // The dashboard keeps it up to date in the game folder; WoW loads a new one at /reload.
         const reload = cs.running && cs.running !== cs.installed ? ` WoW still runs ${cs.running}: /reload in WoW to use it.` : '';
-        const release = cs.release ? ` Version ${cs.release} is out: it comes with the next Touch Dashboard update.` : '';
+        const release = cs.release ? ` Version ${cs.release} is out: it comes with the next Detent update.` : '';
         return `Version ${cs.installed} installed${old ? ` (this PC has ${cs.bundled}: install it)` : ''}.${reload}${release} ${seen}`;
     }
 
@@ -1299,7 +1299,7 @@
             + (server.folder_hint && !s.wow_path ? `<div class="setting-row wow-set-hint"><div><label class="title">WoW is installed here</label><label class="desc num">${esc(server.folder_hint)}</label></div><button class="btn btn-pill btn-ghost" type="button" data-act="use-hint"><i data-lucide="folder-check"></i>Use this folder</button></div>` : '')
             + `<div class="form-group"><label for="wow-set-account">Account folder (optional)</label><input type="text" id="wow-set-account" maxlength="64" autocomplete="off" spellcheck="false" placeholder="The newest file wins" value="${esc(s.account)}"></div>`
             + '<div class="wow-set-files"></div>'
-            + '<h3 class="settings-h">Touch Dashboard addon</h3>'
+            + '<h3 class="settings-h">Detent addon</h3>'
             + '<p class="settings-sub">Runs addon commands and Blizzard’s without opening chat, holds the key slots’ commands, and shows this page the game as it changes (/tdc link off in WoW hides its line of dots). This PC keeps it up to date, and it reads only what the game lets addons see.</p>'
             + '<div class="setting-group">'
             + settingRow('Use the addon', 'When it is installed', switchHtml('id="wow-set-companion"', s.companion !== false))
@@ -1321,7 +1321,7 @@
             + '</div>'
             + '<h3 class="settings-h">How keys reach the game</h3>'
             + '<div class="notice"><i data-lucide="lightbulb"></i><p>WoW lets no addon talk to the PC, so the PC presses keys: WoW must be the window in front. '
-            + 'A key with a key slot is one key press (Ctrl+Alt+Shift+F1–F12), in combat too. With the Touch Dashboard addon, everything else goes through it without opening chat: an addon’s command it runs itself, Blizzard’s it loads into its run button (Ctrl+Alt+Shift+End). '
+            + 'A key with a key slot is one key press (Ctrl+Alt+Shift+F1–F12), in combat too. With the Detent addon, everything else goes through it without opening chat: an addon’s command it runs itself, Blizzard’s it loads into its run button (Ctrl+Alt+Shift+End). '
             + 'In combat, or without the addon, Blizzard’s commands are typed into chat: Enter, Ctrl+V, Enter, and your clipboard is put back.</p></div>';
         // Install works from a folder typed but not saved yet: it is saved first
         // (the server takes messages in order), so a first setup needs no
@@ -1390,7 +1390,7 @@
         const texts = server.slot_text || {};
         setPanes.keys.innerHTML = '<h3 class="settings-h">Key slots</h3>'
             + `<p class="settings-sub">${cs.installed
-                ? 'The Touch Dashboard addon holds each slot’s command and presses it in game: in combat too, and in chat lockdown. Give a key a slot in its editor (hold the key, or the pencil on the page).'
+                ? 'The Detent addon holds each slot’s command and presses it in game: in combat too, and in chat lockdown. Give a key a slot in its editor (hold the key, or the pencil on the page).'
                 : 'In WoW, make a macro with the text shown and bind it to the same keys; the key then presses them instead of typing into chat, in combat too. Give a key a slot in its editor.'}</p>`
             + '<div class="setting-group">' + server.slots.map(slot => {
                 const kb = slotDraft[slot];
@@ -1408,7 +1408,7 @@
     // Custom commands: any slash command, for an addon this page does not know.
     function renderCustom() {
         setPanes.custom.innerHTML = '<h3 class="settings-h">Custom commands</h3>'
-            + '<p class="settings-sub">Slash commands of your own, one a line, as you would type them in WoW. They show in the key editor under Custom commands. An addon’s command goes through the Touch Dashboard addon; Blizzard’s (/cast, /p, /rw…) are typed into chat or need a key slot.</p>'
+            + '<p class="settings-sub">Slash commands of your own, one a line, as you would type them in WoW. They show in the key editor under Custom commands. An addon’s command goes through the Detent addon; Blizzard’s (/cast, /p, /rw…) are typed into chat or need a key slot.</p>'
             + '<div class="wow-custom-list"></div>'
             + '<button class="btn btn-pill btn-ghost" type="button" data-act="add-custom"><i data-lucide="plus"></i>Add a command</button>';
         const list = setPanes.custom.querySelector('.wow-custom-list');

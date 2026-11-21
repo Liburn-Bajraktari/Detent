@@ -63,7 +63,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--width", type=int, default=1280)
     ap.add_argument("--height", type=int, default=720)
-    ap.add_argument("--payload", default="Touch Dashboard probe")
+    ap.add_argument("--payload", default="Detent probe")
     ap.add_argument("--no-beacon", action="store_true")
     ap.add_argument("--title", default="World of Warcraft")
     ap.add_argument("--cls", default="GxWindowClass")

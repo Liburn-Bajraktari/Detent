@@ -1,5 +1,5 @@
 """
-server.py — Touch Dashboard backend.
+server.py — Detent backend.
 
 Architecture:
   FastAPI + uvicorn handle HTTP and WebSocket transport.
@@ -157,11 +157,11 @@ def ensure_runtime_dependencies():
     if not missing:
         return
 
-    msg = (f"Touch Dashboard is missing required dependencies:\n\n"
+    msg = (f"Detent is missing required dependencies:\n\n"
            f"{chr(10).join(f'  - {p}' for p in missing)}\n\n"
            f"Please install them using your system package manager or `pip install -r requirements.txt`.")
     print(msg, flush=True)
-    _show_popup("Touch Dashboard - Missing Dependencies", msg)
+    _show_popup("Detent - Missing Dependencies", msg)
     raise SystemExit(f"Missing deps: {missing}")
 
 
@@ -2050,7 +2050,7 @@ async def _favicon():
 @_app.get("/manifest.json")
 async def _manifest():
     return JSONResponse({
-        "name": "Touch Dashboard", "short_name": "Dashboard",
+        "name": "Detent", "short_name": "Detent",
         "start_url": "/?v=2.0", "display": "standalone",
         "orientation": "landscape",
         "background_color": "#000000", "theme_color": "#000000",
@@ -2072,7 +2072,7 @@ async def spotify_login():
 
 
 def _oauth_state_mismatch() -> HTMLResponse:
-    return HTMLResponse("<p>This sign-in was not started from Touch Dashboard, or it expired. "
+    return HTMLResponse("<p>This sign-in was not started from Detent, or it expired. "
                         "Start it again from Settings on the PC.</p>", status_code=400)
 
 
@@ -2160,7 +2160,7 @@ BNET_SIGN_IN_HELP = {
 
 def _bnet_page(title: str, text: str, status: int = 200) -> HTMLResponse:
     return HTMLResponse("<!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width'>"
-                        "<title>Touch Dashboard</title><h2>" + html.escape(title) + "</h2><p>"
+                        "<title>Detent</title><h2>" + html.escape(title) + "</h2><p>"
                         + html.escape(text) + "</p>", status_code=status)
 
 
@@ -2193,7 +2193,7 @@ async def bnet_callback(code: str | None = None, state: str | None = None, error
     await _bnet_changed()
     who = f" as {acct['battletag']}" if acct.get("battletag") else ""
     return _bnet_page(f"Signed in{who}",
-                      f"Touch Dashboard has your {count} character{'s' if count != 1 else ''}. Switch between them on "
+                      f"Detent has your {count} character{'s' if count != 1 else ''}. Switch between them on "
                       "the WoW page's Character plate. You can close this tab.")
 
 
@@ -2300,7 +2300,7 @@ def _start_update(tag: str) -> bool:
                                  creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP)
                 await ws_manager.broadcast(admin_only=True, msg={
                     "type": "update_progress",
-                    "data": {"text": f"[*] {tag} downloaded and checked. Touch Dashboard closes now and opens "
+                    "data": {"text": f"[*] {tag} downloaded and checked. Detent closes now and opens "
                                      "again once it is installed.", "progress": 100, "error": False}})
                 _desktop_module.remove_tray()
                 await asyncio.sleep(1)
@@ -2355,7 +2355,7 @@ def _start_update(tag: str) -> bool:
                 installer = ""
                 await ws_manager.broadcast(admin_only=True, msg={
                     "type": "update_progress",
-                    "data": {"text": "\n[*] Touch Dashboard closes now and opens again once the update is installed.",
+                    "data": {"text": "\n[*] Detent closes now and opens again once the update is installed.",
                              "progress": 100, "error": False}})
                 _desktop_module.remove_tray()
                 await asyncio.sleep(1)       # the message out first
@@ -3020,7 +3020,7 @@ def _autostart_command() -> str:
 
 
 def _autostart(on: bool | None = None) -> bool | None:
-    """Whether Touch Dashboard starts with Windows, after setting it when `on`
+    """Whether Detent starts with Windows, after setting it when `on`
     is given. None off Windows."""
     if get_os_target() != "windows":
         return None
@@ -4244,7 +4244,7 @@ def _theme_ground() -> str:
 # ─── Entry point ───────────────────────────────────────────────────────────────
 
 def _parse_args():
-    p = argparse.ArgumentParser(description="Touch Dashboard")
+    p = argparse.ArgumentParser(description="Detent")
     p.add_argument("--server-only", action="store_true")
     p.add_argument("--host", default="0.0.0.0")
     p.add_argument("--port", type=int, default=8888)
@@ -4262,7 +4262,7 @@ def _write_crash_report(exc_type, exc_value, exc_tb, thread_name: str = "main") 
     crash_path = os.path.join(DATA_DIR, f"crash_{ts}.txt")
     try:
         with open(crash_path, "w", encoding="utf-8") as f:
-            f.write("Touch Dashboard — Crash Report\n")
+            f.write("Detent — Crash Report\n")
             f.write(f"Error Code : {error_code}\n")
             f.write(f"Timestamp  : {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write(f"Thread     : {thread_name}\n")
@@ -4277,13 +4277,13 @@ def _write_crash_report(exc_type, exc_value, exc_tb, thread_name: str = "main") 
 def _show_crash_dialog(error_code: str, crash_path: str):
     """Show a user-visible crash popup with an actionable error code."""
     msg = (
-        f"Touch Dashboard encountered a fatal error and must close.\n\n"
+        f"Detent encountered a fatal error and must close.\n\n"
         f"Error Code:  {error_code}\n\n"
         f"Please forward this code to the developer for debugging.\n"
         f"Full report saved to:\n{crash_path}"
     )
     try:
-        _show_popup("Touch Dashboard \u2014 Fatal Error", msg)
+        _show_popup("Detent \u2014 Fatal Error", msg)
     except Exception:
         pass
 

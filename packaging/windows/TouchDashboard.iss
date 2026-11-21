@@ -3,7 +3,8 @@
 ;
 ;   iscc /DAppVersion=0.17.0 packaging\windows\TouchDashboard.iss
 ;
-; Per user, no administrator rights: %LOCALAPPDATA%\Programs\Touch Dashboard,
+; Per user, no administrator rights: %LOCALAPPDATA%\Programs\Touch Dashboard (folder kept from before the
+; rename to Detent, so updates land in place),
 ; an entry in Installed Apps. Only the optional firewall rule asks for
 ; administrator rights, once. The app's own update runs it with
 ;   /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /TDWAIT=<the app's process id>
@@ -16,10 +17,10 @@
 
 [Setup]
 AppId={{6F1C2B7E-3D4A-4E59-9A0B-7D2E1C5F8A31}
-AppName=Touch Dashboard
+AppName=Detent
 AppVersion={#AppVersion}
-AppVerName=Touch Dashboard {#AppVersion}
-AppPublisher=Touch Dashboard
+AppVerName=Detent {#AppVersion}
+AppPublisher=Invar
 AppPublisherURL=https://github.com/Liburn-Bajraktari/Touch-Dashboard
 AppSupportURL=https://github.com/Liburn-Bajraktari/Touch-Dashboard/issues
 DefaultDirName={localappdata}\Programs\Touch Dashboard
@@ -33,7 +34,7 @@ OutputDir=Output
 OutputBaseFilename=TouchDashboard-Setup-v{#AppVersion}
 SetupIconFile=..\..\static\favicon.ico
 UninstallDisplayIcon={app}\TouchDashboard.exe
-UninstallDisplayName=Touch Dashboard
+UninstallDisplayName=Detent
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
@@ -43,7 +44,7 @@ CloseApplications=no
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"; Flags: unchecked
-Name: "autostart"; Description: "Start Touch Dashboard when I sign in to Windows"; Flags: unchecked
+Name: "autostart"; Description: "Start Detent when I sign in to Windows"; Flags: unchecked
 Name: "firewall"; Description: "Let tablets on my home network connect (asks for administrator rights once)"
 
 [Files]
@@ -52,11 +53,14 @@ Source: "..\..\dist\TouchDashboard\*"; DestDir: "{app}"; Flags: recursesubdirs c
 ; A release replaces the whole program folder: nothing it removed lingers
 [InstallDelete]
 Type: filesandordirs; Name: "{app}\_internal"
+; Shortcuts made before the rename to Detent
+Type: files; Name: "{autoprograms}\Touch Dashboard.lnk"
+Type: files; Name: "{autodesktop}\Touch Dashboard.lnk"
 
 [Icons]
 ; The window's own AppUserModelID (desktop.py), so a pinned shortcut and the running window are one taskbar button
-Name: "{autoprograms}\Touch Dashboard"; Filename: "{app}\TouchDashboard.exe"; AppUserModelID: "TouchDashboard.TouchDashboard"
-Name: "{autodesktop}\Touch Dashboard"; Filename: "{app}\TouchDashboard.exe"; AppUserModelID: "TouchDashboard.TouchDashboard"; Tasks: desktopicon
+Name: "{autoprograms}\Detent"; Filename: "{app}\TouchDashboard.exe"; AppUserModelID: "TouchDashboard.TouchDashboard"
+Name: "{autodesktop}\Detent"; Filename: "{app}\TouchDashboard.exe"; AppUserModelID: "TouchDashboard.TouchDashboard"; Tasks: desktopicon
 
 [Registry]
 ; The same value the app's own "Start with Windows" switch sets (server.py _autostart).
@@ -67,7 +71,7 @@ Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: 
 [Run]
 ; Port 8888 on private networks only, and only from the local subnet (as install.ps1)
 Filename: "{sys}\cmd.exe"; Parameters: "/c netsh advfirewall firewall delete rule name=""Touch Dashboard Backend"" >nul & netsh advfirewall firewall add rule name=""Touch Dashboard Backend"" dir=in action=allow protocol=TCP localport=8888 profile=private remoteip=localsubnet"; Verb: runas; Flags: shellexec runhidden waituntilterminated; Tasks: firewall; Check: not WizardSilent; StatusMsg: "Opening port 8888 for your home network..."
-Filename: "{app}\TouchDashboard.exe"; Description: "Start Touch Dashboard"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\TouchDashboard.exe"; Description: "Start Detent"; Flags: nowait postinstall skipifsilent
 ; An update from the app: it comes back by itself
 Filename: "{app}\TouchDashboard.exe"; Flags: nowait; Check: WizardSilent
 
@@ -109,7 +113,7 @@ begin
       if Waited >= 60 then exit;
       Sleep(1000);
       Waited := Waited + 1;
-    end else if MsgBox('Touch Dashboard is running. Close it (its tray icon: Quit), then press OK.',
+    end else if MsgBox('Detent is running. Close it (its tray icon: Quit), then press OK.',
                        mbInformation, MB_OKCANCEL) = IDCANCEL then
       exit;
   end;
@@ -124,7 +128,7 @@ var
 begin
   Old := ExpandConstant('{localappdata}\Touch-Dashboard');
   if not DirExists(Old + '\.venv') then exit;
-  if MsgBox('An earlier Touch Dashboard installed by its PowerShell installer is in ' + Old +
+  if MsgBox('An earlier Detent installed by its PowerShell installer is in ' + Old +
             '. Remove it? Your settings and paired tablets stay.', mbConfirmation, MB_YESNO) <> IDYES then exit;
   DelTree(Old, True, True, True);
   if RegQueryStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Run', 'TouchDashboard', Value) and

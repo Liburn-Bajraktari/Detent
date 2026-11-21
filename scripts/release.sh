@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Touch Dashboard GitHub Releaser
+# Detent GitHub Releaser
 
 REPO_OWNER="Liburn-Bajraktari"
 REPO_NAME="Touch-Dashboard"

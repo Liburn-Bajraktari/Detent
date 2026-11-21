@@ -92,7 +92,7 @@ def test_index(client):
 def test_manifest(client):
     response = client.get("/manifest.json")
     assert response.status_code == 200
-    assert "Touch Dashboard" in response.text
+    assert "Detent" in response.text
 
 @pytest.mark.asyncio
 async def test_websocket_flow(client):

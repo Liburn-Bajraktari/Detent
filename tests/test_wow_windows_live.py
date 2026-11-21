@@ -14,7 +14,7 @@ import pytest
 pytestmark = pytest.mark.skipif(sys.platform != "win32", reason="Windows only")
 
 HERE = Path(__file__).resolve().parent
-PAYLOAD = "Touch Dashboard probe"
+PAYLOAD = "Detent probe"
 # Inside the hosted runner's 1024 x 768 screen: Windows shrinks a wider window
 # to fit (1280 came out 1028).
 W, H = 800, 450

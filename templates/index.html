@@ -14,8 +14,8 @@
             document.querySelector('meta[name="viewport"]').content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
         }
     </script>
-    <title>Touch Dashboard</title>
-    <meta name="description" content="Touch Dashboard — system monitor and macro pad for your tablet or phone">
+    <title>Detent</title>
+    <meta name="description" content="Detent — system monitor and macro pad for your tablet or phone">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="icon" type="image/png" sizes="192x192" href="static/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="static/icon-512.png">
@@ -33,7 +33,7 @@
 
     <style>
         /*
-         * Touch Dashboard — "broadcast console" design language.
+         * Detent — "broadcast console" design language.
          * Every design value comes from static/themes.js through var(--token);
          * no colour literals here (tests/test_themes.py enforces it).
          * The light model, materials and rules are in docs/DESIGN.md.
@@ -6316,10 +6316,10 @@
             <button class="win-btn win-close" aria-label="Close" onclick="pywebview.api.close()"><i data-lucide="x"></i></button>
         </div>
 
-        <div id="win-menu" class="win-menu" role="menu" aria-label="Touch Dashboard">
+        <div id="win-menu" class="win-menu" role="menu" aria-label="Detent">
             <div class="menu-head">
                 <svg class="brand-mark" aria-hidden="true"><use href="#icon-brand" /></svg>
-                <span class="menu-name">Touch Dashboard</span>
+                <span class="menu-name">Detent</span>
                 <span class="menu-version num" id="win-menu-version" aria-label="Version">&mdash;</span>
             </div>
             <div class="setting-group">
@@ -6371,7 +6371,7 @@
         <div class="modal-card is-compact ip-card">
             <svg class="brand-mark" aria-hidden="true"><use href="#icon-brand" /></svg>
             <h3 class="modal-title">Connect to your PC</h3>
-            <p class="modal-text">Enter the local IP address shown in the Touch Dashboard tray menu on your PC.</p>
+            <p class="modal-text">Enter the local IP address shown in the Detent tray menu on your PC.</p>
             <div class="form-group">
                 <label for="ip-input"><i data-lucide="wifi"></i> Desktop IP address</label>
                 <input type="text" id="ip-input" placeholder="192.168.1.50" autocomplete="off" autocapitalize="off"
@@ -6393,7 +6393,7 @@
             <svg class="brand-mark" aria-hidden="true"><use href="#icon-brand" /></svg>
             <h3 class="modal-title" id="pair-title">Pair with this PC</h3>
             <div class="pair-step-form">
-                <p class="modal-text">This device is not paired yet. Send a request, then allow it in Touch Dashboard on
+                <p class="modal-text">This device is not paired yet. Send a request, then allow it in Detent on
                     the PC.</p>
                 <div class="form-group">
                     <label for="pair-name-input"><i data-lucide="tablet-smartphone"></i> Device name</label>
@@ -6879,7 +6879,7 @@
                     <div class="notice">
                         <i data-lucide="shield-check"></i>
                         <p>Settings, macros, soundboard pads, pairing and updates can only be changed here on the
-                            PC. Keep Touch Dashboard on a private network; its traffic is not encrypted.</p>
+                            PC. Keep Detent on a private network; its traffic is not encrypted.</p>
                     </div>
                 </div>
 
@@ -7034,7 +7034,7 @@
         </div>
         <div class="section bar-title">
             <svg class="brand-mark" aria-hidden="true"><use href="#icon-brand" /></svg>
-            <h1 id="top-title">Command Center</h1>
+            <h1 id="top-title">Detent</h1>
             <span class="conn-dot" id="conn-dot" role="status" aria-label="Connecting"></span>
         </div>
         <div class="section bar-right">
@@ -7771,7 +7771,7 @@
                 hideIpModal();
                 setText(document.getElementById('reconnect-text'), linkedOnce
                     ? `The connection to the PC at ${ip} dropped. It comes back by itself once the PC can be reached.`
-                    : `The PC at ${ip} does not answer yet. Touch Dashboard may still be starting on it.`);
+                    : `The PC at ${ip} does not answer yet. Detent may still be starting on it.`);
                 document.getElementById('reconnect-modal').classList.add('active');
             }
             clearReconnectTimers();
@@ -7810,7 +7810,7 @@
             const ip = reconnect.ip;
             stopReconnect();
             closePendingSocket();
-            showIpModal(`Couldn't reconnect to the PC at ${ip}. Is Touch Dashboard running on it?`, ip, false);
+            showIpModal(`Couldn't reconnect to the PC at ${ip}. Is Detent running on it?`, ip, false);
         }
 
         function clearReconnectTimers() {
@@ -8155,7 +8155,7 @@
             if (authState !== 'authed') {
                 tdNotice({
                     icon: 'wifi-off', tone: 'warning', title: 'Not connected yet',
-                    text: 'The window is still connecting to Touch Dashboard. Try again in a moment.',
+                    text: 'The window is still connecting to Detent. Try again in a moment.',
                 });
                 return;
             }
@@ -8180,8 +8180,8 @@
                 const installed = serverVersion;
                 tdNotice({
                     icon: 'check-circle-2', tone: 'positive', title: 'You are up to date',
-                    text: installed ? `Touch Dashboard ${installed} is the newest release.`
-                        : 'This is the newest release of Touch Dashboard.',
+                    text: installed ? `Detent ${installed} is the newest release.`
+                        : 'This is the newest release of Detent.',
                 });
             }
             // An available update opens the update dialog (config_sync).
@@ -9859,7 +9859,7 @@
                 title.textContent = required ? 'App update required' : 'App update available';
                 message.textContent = (required
                     ? `This desktop version needs Android app ${d.req_apk_version} or newer; you have ${installed}. `
-                    : `Touch Dashboard ${tag} is ready; you have ${installed}. `)
+                    : `Detent ${tag} is ready; you have ${installed}. `)
                     + 'The app downloads it from GitHub, checks it, and Android asks you to confirm.';
                 btn.style.display = '';
                 btn.disabled = false;
@@ -9884,7 +9884,7 @@
                 + 'Install it once by hand. From then on the app updates itself.<br>'
                 + '1. Open this link in Chrome on this tablet and download the app:<br>'
                 + `<a href="${safeUrl}" target="_blank" rel="noopener">${safeUrl}</a><br>`
-                + '2. Uninstall the old Touch Dashboard app (Android cannot install the new one over it).<br>'
+                + '2. Uninstall the old Detent app (Android cannot install the new one over it).<br>'
                 + '3. Install the downloaded app, open it and pair it again.';
             dismiss.textContent = 'Dismiss';
             dismiss.style.display = 'block';
@@ -9928,11 +9928,11 @@
             not_found: 'This release has no Android app to download.',
             no_checksum: 'This release has no checksum for the app, so it was not installed.',
             checksum_mismatch: 'The download was damaged or altered, so it was not installed. Try again.',
-            wrong_signer: 'The download is not signed by Touch Dashboard\'s key, so it was not installed.',
-            wrong_package: 'The download is not Touch Dashboard, so it was not installed.',
+            wrong_signer: 'The download is not signed by Detent\'s key, so it was not installed.',
+            wrong_package: 'The download is not Detent, so it was not installed.',
             invalid_apk: 'The download is not a valid app, so it was not installed.',
             not_newer: 'This version is already installed.',
-            too_large: 'The download is larger than any Touch Dashboard release, so it was stopped.',
+            too_large: 'The download is larger than any Detent release, so it was stopped.',
             network: 'Could not download the update. Check that the tablet is online, then try again.',
         };
 
@@ -9961,7 +9961,7 @@
                     break;
                 case 'permission':
                     setUpdateProgress('Waiting for permission', 1);
-                    message.textContent = 'Android asks once whether Touch Dashboard may install updates. Turn on "Allow from this source", then come back here.';
+                    message.textContent = 'Android asks once whether Detent may install updates. Turn on "Allow from this source", then come back here.';
                     btn.disabled = false;
                     btn.textContent = 'Open settings';
                     btn.onclick = () => window.TDAndroid.openInstallSettings();
@@ -10019,8 +10019,8 @@
                     if (!showApkUpdateIfNeeded(d) && isAdmin() && !isCapacitorRuntime() && d.update_available && !document.getElementById('update-modal').classList.contains('active')) {
                         document.getElementById('update-title').textContent = 'Update available';
                         document.getElementById('update-message').textContent = d.server_version
-                            ? `Touch Dashboard ${d.latest_version} is ready to install. This PC has ${d.server_version}.`
-                            : `Touch Dashboard ${d.latest_version} is ready to install.`;
+                            ? `Detent ${d.latest_version} is ready to install. This PC has ${d.server_version}.`
+                            : `Detent ${d.latest_version} is ready to install.`;
 
                         const notesContainer = document.getElementById('update-notes-container');
                         if (d.update_notes) {
@@ -10037,7 +10037,7 @@
                         document.getElementById('update-download-btn').onclick = () => {
                             isUpdating = true;
                             sendSocket('run_update');
-                            document.getElementById('update-message').textContent = 'Updating… Touch Dashboard restarts by itself when it is done.';
+                            document.getElementById('update-message').textContent = 'Updating… Detent restarts by itself when it is done.';
                             document.getElementById('update-download-btn').style.display = 'none';
                             document.getElementById('update-dismiss-btn').textContent = 'Close';
                             document.getElementById('update-dismiss-btn').style.display = 'block';
@@ -11946,7 +11946,7 @@
             const fresh = sbAnims.length === 0;   // false: turning a transition around
             sbFreeze();
             isAnimating = true;
-            const text = show ? (osTarget === 'linux' ? 'Soundboard' : 'Soundpad') : 'Command Center';
+            const text = show ? (osTarget === 'linux' ? 'Soundboard' : 'Soundpad') : 'Detent';
 
             if (document.documentElement.dataset.fx !== 'rich' || reducedMotion.matches) {
                 dom.topTitle.textContent = text;

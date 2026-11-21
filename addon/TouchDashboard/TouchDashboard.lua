@@ -1,4 +1,4 @@
--- Touch Dashboard companion addon.
+-- Detent companion addon.
 --
 -- WoW lets no addon talk to anything outside the game, so the dashboard on
 -- this PC presses keys, and this addon answers through a hidden edit box:
@@ -1137,17 +1137,17 @@ local toldNewer = false
 local function newerInstalled(version)
     if toldNewer or version == VERSION then return end
     toldNewer = true
-    print(("|cff5db8a6Touch Dashboard|r %s is installed (this is %s): type /reload to use it."):format(version, VERSION))
+    print(("|cff5db8a6Detent|r %s is installed (this is %s): type /reload to use it."):format(version, VERSION))
 end
 
--- A newer version of this addon is out, with a newer Touch Dashboard: the
+-- A newer version of this addon is out, with a newer Detent: the
 -- dashboard updates itself, then this addon in the AddOns folder (flag
 -- "u<version>", from the dashboard's own check for updates). Once a session.
 local toldReleased = false
 local function newerReleased(version)
     if toldReleased or version == VERSION then return end
     toldReleased = true
-    print(("|cff5db8a6Touch Dashboard|r addon %s is out (this is %s): update Touch Dashboard on your PC, and it updates this addon."):format(version, VERSION))
+    print(("|cff5db8a6Detent|r addon %s is out (this is %s): update Detent on your PC, and it updates this addon."):format(version, VERSION))
 end
 
 local function tdc(msg)
@@ -1261,7 +1261,7 @@ SlashCmdList.TOUCHDASHBOARD = function(msg)
     if verb == "nstest" then nsrtTest(); return end
     local n = 0
     for _ in slotsRaw:gmatch("%d+=") do n = n + 1 end
-    print(("|cff5db8a6Touch Dashboard|r %s: %d key slot%s loaded%s. The dashboard focuses its box with %s. Live link %s (/tdc link %s).")
+    print(("|cff5db8a6Detent|r %s: %d key slot%s loaded%s. The dashboard focuses its box with %s. Live link %s (/tdc link %s).")
         :format(VERSION, n, n == 1 and "" or "s", pendingSlots and " (more after combat)" or "", FOCUS_KEY,
                 linkOn() and "on" or "off", linkOn() and "off" or "on"))
 end

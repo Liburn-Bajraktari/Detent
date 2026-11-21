@@ -1,5 +1,5 @@
 /*
- * Touch Dashboard — design tokens and theme presets.
+ * Detent — design tokens and theme presets.
  *
  * This file is the single source of every colour, radius, type, depth and
  * motion value the UI uses. templates/index.html never hard-codes a design
