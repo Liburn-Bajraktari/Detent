@@ -1,5 +1,5 @@
 """
-mpris_monitor.py — event-driven MPRIS (Linux media players) for Touch Dashboard.
+mpris_monitor.py — event-driven MPRIS (Linux media players) for Detent.
 
 Replaces a `playerctl` process every second with D-Bus signals: players are
 found through NameOwnerChanged, their state follows PropertiesChanged and

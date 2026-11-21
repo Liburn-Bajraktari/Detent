@@ -1,5 +1,5 @@
 """
-desktop.py — Desktop window and system tray for Touch Dashboard.
+desktop.py — Desktop window and system tray for Detent.
 
 Uses pywebview (WebKit2GTK on Linux, edgechromium/WebView2 on Windows) for the
 frameless dashboard window, and pystray for the system tray icon.
@@ -217,7 +217,7 @@ class TrayManager:
         self._icon = pystray.Icon(
             "touch-dashboard",
             self._make_icon_image(),
-            "Touch Dashboard",
+            "Detent",
             self._build_menu(),
         )
         self._icon.run_detached()
@@ -421,7 +421,7 @@ def launch_desktop(
         webview.settings["DRAG_REGION_DIRECT_TARGET_ONLY"] = True
 
     global _window_title, _active_tray
-    _window_title = f"Touch Dashboard \u2014 {local_ip}"
+    _window_title = f"Detent \u2014 {local_ip}"
     window = webview.create_window(
         title=_window_title,
         url=f"http://127.0.0.1:{port}",

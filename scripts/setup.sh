@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Touch Dashboard Linux Installer
+# Detent Linux Installer
 # Run via: bash -c "$(curl -fsSL https://raw.githubusercontent.com/Liburn-Bajraktari/Touch-Dashboard/main/scripts/setup.sh)" < /dev/tty
 
 set -e
@@ -95,7 +95,7 @@ install_deps() {
 }
 
 install_update() {
-    echo -e "\n${CYAN}=== Installing / Updating Touch Dashboard ===${NC}"
+    echo -e "\n${CYAN}=== Installing / Updating Detent ===${NC}"
     
     # Check if running
     running_pids=""
@@ -107,7 +107,7 @@ install_update() {
     
     if [ -n "$running_pids" ]; then
         if [ "$BACKGROUND_UPDATE" != "1" ]; then
-            write_color "  [!] Touch Dashboard is currently running." "$YELLOW"
+            write_color "  [!] Detent is currently running." "$YELLOW"
             if [ "$AUTO_UPDATE" = "1" ]; then
                 ans="y"
             else
@@ -138,10 +138,10 @@ install_update() {
     fi
 
     if ! resolve_release_tag; then
-        write_color "[-] Could not find a Touch Dashboard release to install on GitHub." "$RED"
+        write_color "[-] Could not find a Detent release to install on GitHub." "$RED"
         exit 1
     fi
-    write_color "[*] Downloading Touch Dashboard $RELEASE_TAG from GitHub and checking it against SHA256SUMS..." "$CYAN"
+    write_color "[*] Downloading Detent $RELEASE_TAG from GitHub and checking it against SHA256SUMS..." "$CYAN"
     TEMP_DIR=$(mktemp -d)
     fetch_status=0
     TEMP_TAR=$(fetch_release_archive "$TEMP_DIR") || fetch_status=$?
@@ -192,7 +192,7 @@ install_update() {
     mkdir -p "$DESKTOP_ENTRY_DIR"
     cat <<EOF > "$DESKTOP_ENTRY_DIR/touch-dashboard.desktop"
 [Desktop Entry]
-Name=Touch Dashboard
+Name=Detent
 Comment=System dashboard and macro pad
 Exec=$INSTALL_DIR/.venv/bin/python $INSTALL_DIR/server.py
 Icon=$INSTALL_DIR/static/icon-512.png
@@ -210,7 +210,7 @@ EOF
     if [ "$AUTO_UPDATE" = "1" ]; then
         launch="y"
     else
-        read -p "[?] Would you like to launch Touch Dashboard now? (Y/N): " launch || true
+        read -p "[?] Would you like to launch Detent now? (Y/N): " launch || true
     fi
 
     if [ "$BACKGROUND_UPDATE" = "1" ]; then
@@ -275,7 +275,7 @@ repair() {
 }
 
 uninstall() {
-    echo -e "\n${CYAN}=== Uninstall Touch Dashboard ===${NC}"
+    echo -e "\n${CYAN}=== Uninstall Detent ===${NC}"
     read -p "Are you sure you want to completely uninstall? (Y/N): " confirm || true
     if [[ "$confirm" =~ ^[Yy]$ ]]; then
         
@@ -342,7 +342,7 @@ while true; do
     echo -e ""
     echo -e "${GRAY}   ╔══════════════════════════════════════════════════════════╗${NC}"
     echo -e "${GRAY}   ║                                                          ║${NC}"
-    echo -e "${GRAY}   ║    ${CYAN}1${NC}    Install / Update Touch Dashboard                 ${GRAY}║${NC}"
+    echo -e "${GRAY}   ║    ${CYAN}1${NC}    Install / Update Detent                 ${GRAY}║${NC}"
     echo -e "${GRAY}   ║    ${YELLOW}2${NC}    Repair Existing Installation                     ${GRAY}║${NC}"
     echo -e "${GRAY}   ║    ${RED}3${NC}    Completely Uninstall                             ${GRAY}║${NC}"
     echo -e "${GRAY}   ║    ${GREEN}4${NC}    Download Android APK Client                      ${GRAY}║${NC}"

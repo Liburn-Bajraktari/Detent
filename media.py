@@ -1,5 +1,5 @@
 """
-media.py — Media sources and controls for Touch Dashboard.
+media.py — Media sources and controls for Detent.
 
 Sources (each becomes a "player record", see _record()):
   • Spotify  — Spotipy + SpotifyOAuth (all platforms, requires credentials)

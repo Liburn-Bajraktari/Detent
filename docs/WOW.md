@@ -47,7 +47,7 @@ Every macro is limited to 255 characters, as WoW's own are.
 
 ## The companion addon
 
-The **Touch Dashboard** addon (`addon/TouchDashboard`) is what lets the page run commands without chat and see the game. It never runs anything on its own, and no key is ever pressed because of what it shows.
+The **Detent** addon (`addon/TouchDashboard`) is what lets the page run commands without chat and see the game. It never runs anything on its own, and no key is ever pressed because of what it shows.
 
 **The live link.** The addon draws a one-pixel line of coloured dots along the top edge of the game window, from a fifth of the way across to four fifths (the corners are where overlays such as Steam's FPS counter draw). The PC reads that line from the game's window ten times a second, so the page follows the game as it changes, with no keys pressed and in combat too. It carries your character, gold, bags, durability, weapon oil, keystone and group; your buffs of ten minutes or more and your consumables; boss mod bars and the pull countdown; the last ready check's answers; NSRT's alerts for the phase; and your Mythic+ run. Only what the game lets addons see: in combat, encounters and Mythic+ the game hides buffs from addons, and the addon leaves them out; in a dungeon or raid it also hides who started a pull countdown or a ready check and how long it runs. The line is read on Linux (WoW through Wine or Proton under X11 or XWayland) and on Windows 11 (through Windows' own window capture, which sees WoW's window even under another one, but not while it is minimised).
 
@@ -151,7 +151,7 @@ Hold a key, or tap one while arranging, to edit it: any command by category or s
 
 ## Settings
 
-![WoW settings, General: how keys reach the game, the Touch Dashboard addon's status, your character](images/wow/wow-settings.png)
+![WoW settings, General: how keys reach the game, the Detent addon's status, your character](images/wow/wow-settings.png)
 
 On the PC, the gear: **General** (the game folder, the addon and its status, your character and role tag), **Addons** (turn each part of the page on or off, and change an addon command's text), **Key slots**, and **Custom commands**. A tablet can arrange the page but not change what the keys type.
 

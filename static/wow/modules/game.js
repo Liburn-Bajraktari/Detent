@@ -1,5 +1,5 @@
 /*
- * The game as the Touch Dashboard addon shows it (wow_game_update): the buff
+ * The game as the Detent addon shows it (wow_game_update): the buff
  * check, gold, bags with a search through every character's items, keystone
  * and Great Vault, and the characters the addon has seen. Live figures come
  * from its live link (read from WoW's window ten times a second, on every
@@ -51,7 +51,7 @@
     // Why there are no live figures, in a line.
     function status(api) {
         const cs = (data && data.companion) || api.companion();
-        if (!cs.installed) return api.admin() ? 'Install the Touch Dashboard addon: WoW settings → General.' : 'Needs the Touch Dashboard addon on the PC (WoW settings).';
+        if (!cs.installed) return api.admin() ? 'Install the Detent addon: WoW settings → General.' : 'Needs the Detent addon on the PC (WoW settings).';
         if (cs.enabled === false) return 'The addon is switched off in WoW settings.';
         const live = data && data.live;
         if (!live) return 'Nothing from the game yet: log in with the addon on, or tap Read with WoW in front.';
@@ -273,7 +273,7 @@
                     not_front: 'WoW is not the window in front on the PC',
                     elevated: 'WoW runs as administrator: start it normally',
                     no_check: 'the PC cannot see WoW’s window to check the addon',
-                    no_companion: 'the Touch Dashboard addon is not installed',
+                    no_companion: 'the Detent addon is not installed',
                 }[d.reason] || 'the PC could not do it'}`;
             };
             drawAll(api);

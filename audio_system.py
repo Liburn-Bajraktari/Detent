@@ -1,5 +1,5 @@
 """
-audio_system.py — Cross-platform audio management for Touch Dashboard.
+audio_system.py — Cross-platform audio management for Detent.
 
 Linux:   PipeWire / WirePlumber via wpctl + pactl + pw-play
 Windows: Windows Core Audio (MMDevice / WASAPI) via pycaw

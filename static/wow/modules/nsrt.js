@@ -165,7 +165,7 @@
 
     function idleText(api) {
         const g = api.view('game');
-        if (!(g && g.live && g.live.link)) return 'Alerts come with the live link: the Touch Dashboard addon on, WoW running.';
+        if (!(g && g.live && g.live.link)) return 'Alerts come with the live link: the Detent addon on, WoW running.';
         return al.data ? 'No more alerts this phase.' : 'NSRT’s alerts show here once an encounter starts. Test runs phase 1 now.';
     }
 

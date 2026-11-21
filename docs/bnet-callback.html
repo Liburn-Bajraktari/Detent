@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-  Battle.net sign-in relay for Touch Dashboard.
+  Battle.net sign-in relay for Detent.
 
   Battle.net returns from a sign-in only to an HTTPS address. When it refuses
   the dashboard's own http://127.0.0.1:<port>/bnet_callback, host this file on
@@ -18,14 +18,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark light">
-<title>Touch Dashboard · Battle.net sign-in</title>
+<title>Detent · Battle.net sign-in</title>
 <style>
     body { font: 16px/1.5 system-ui, sans-serif; max-width: 36rem; margin: 4rem auto; padding: 0 1rem; }
 </style>
 </head>
 <body>
-<h2>Back to Touch Dashboard…</h2>
-<p id="msg">Taking your Battle.net sign-in back to Touch Dashboard on this PC.</p>
+<h2>Back to Detent…</h2>
+<p id="msg">Taking your Battle.net sign-in back to Detent on this PC.</p>
 <p><a id="go" href="#" hidden>Continue</a></p>
 <script>
 (function () {
@@ -40,7 +40,7 @@
     if (code && safe.test(code)) out.set('code', code);
     else if (error && /^[a-z_]{1,64}$/.test(error)) out.set('error', error);
     if (!out.has('state') || !(out.has('code') || out.has('error'))) {
-        document.getElementById('msg').textContent = 'This page only finishes a Battle.net sign-in started from Touch Dashboard. Start it again from Settings → Battle.net.';
+        document.getElementById('msg').textContent = 'This page only finishes a Battle.net sign-in started from Detent. Start it again from Settings → Battle.net.';
         return;
     }
     var target = 'http://127.0.0.1:' + port + '/bnet_callback?' + out.toString();

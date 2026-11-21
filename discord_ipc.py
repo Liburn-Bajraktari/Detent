@@ -1,5 +1,5 @@
 """
-discord_ipc.py — Discord Rich-Presence IPC client for Touch Dashboard.
+discord_ipc.py — Discord Rich-Presence IPC client for Detent.
 
 Connects to the locally-running Discord (or arRPC/Vesktop) process via
 a named socket / Windows named pipe, subscribes to voice state events,

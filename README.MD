@@ -1,8 +1,9 @@
-<h1 align="center">Touch Dashboard</h1>
+<h1 align="center">Detent</h1>
 
 <p align="center">
   <strong>A touch control surface for your PC: an Android tablet (or any browser) becomes a desk console with studio faders, a now-playing deck, Discord voice controls, macro keys and a live system monitor.</strong><br>
-  <em>An open alternative to Stream Deck and Touch Portal, for Linux and Windows.</em>
+  <em>An open alternative to Stream Deck and Touch Portal, for Linux and Windows.</em><br>
+  <sub>An Invar product. Formerly Touch Dashboard; a detent is the click that lets a knob land on a position and hold it.</sub>
 </p>
 
 <p align="center">
@@ -35,7 +36,7 @@
 >
 > The code itself is mostly AI-generated, but the logic is human-reviewed. It currently exists mainly to fit my own workflow and hardware setup. I do plan to make it more modular and generally useful over time, and contributions are welcome from anyone who wants to improve it.
 
-![Touch Dashboard in the Graphite theme: now playing with cover-tinted controls, Discord voice channel, studio faders with an output encoder, macro keys and system monitor](docs/screenshots/dashboard-graphite.png)
+![Detent in the Graphite theme: now playing with cover-tinted controls, Discord voice channel, studio faders with an output encoder, macro keys and system monitor](docs/screenshots/dashboard-graphite.png)
 
 ![The same dashboard in the Daylight theme: a white console with soft grey displays and silver fader caps](docs/screenshots/dashboard-daylight.png)
 
@@ -62,7 +63,7 @@
 
 ## How it works
 
-Touch Dashboard is client and server:
+Detent is client and server:
 
 - **The desktop app** runs on your PC. It reads audio, media, Discord, hardware and battery state, runs your macros, and serves the dashboard on port **8888** over HTTP and WebSocket. It opens a desktop window of the dashboard and lives in the system tray.
 - **The Android app** is a full-screen WebView with the dashboard built in. It connects to the PC over your local network and installs its own updates.
@@ -80,7 +81,7 @@ Touch Dashboard is client and server:
 > [!WARNING]
 > **Not yet tried on a real Windows PC.** The Windows side is built and tested against stand-ins and on GitHub's Windows runners only. Reports welcome.
 
-**The installer (recommended).** From the [latest release](https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases/latest), download `TouchDashboard-Setup-vX.Y.Z.exe` and run it. It needs no Python and no administrator rights; it installs to `%LOCALAPPDATA%\Programs\Touch Dashboard`, adds Touch Dashboard to Installed Apps, and offers a desktop shortcut, starting with Windows, and the firewall rule tablets need (that one asks for administrator rights once). The app updates itself through the next release's installer, checked against its `SHA256SUMS`. It is not code-signed yet, so Windows SmartScreen asks before the first run (**More info → Run anyway**).
+**The installer (recommended).** From the [latest release](https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases/latest), download `TouchDashboard-Setup-vX.Y.Z.exe` and run it. It needs no Python and no administrator rights; it installs to `%LOCALAPPDATA%\Programs\Touch Dashboard`, adds Detent to Installed Apps, and offers a desktop shortcut, starting with Windows, and the firewall rule tablets need (that one asks for administrator rights once). The app updates itself through the next release's installer, checked against its `SHA256SUMS`. It is not code-signed yet, so Windows SmartScreen asks before the first run (**More info → Run anyway**).
 
 **Or the PowerShell installer**, which runs the app from Python in a folder of its own:
 
@@ -94,7 +95,7 @@ Touch Dashboard is client and server:
    powershell -ExecutionPolicy Bypass -File .\install.ps1
    ```
 4. A text menu opens. Press <kbd>1</kbd> to download the app, set up Python (3.11 to 3.13; it offers to install it with winget) and create the Start Menu and desktop shortcuts. The app installs to `%LOCALAPPDATA%\Touch-Dashboard`.
-5. Launch **Touch Dashboard** from the Start Menu. It opens the dashboard window and keeps running in the system tray when you close the window (you can turn that off in the window's menu).
+5. Launch **Detent** from the Start Menu. It opens the dashboard window and keeps running in the system tray when you close the window (you can turn that off in the window's menu).
 
 The installer also has a repair mode, an uninstaller, and an option (<kbd>4</kbd>) to download the latest Android APK to your PC. It installs the latest release, never unreleased code: it downloads that release's source archive and refuses it unless it matches the release's `SHA256SUMS`. Run as administrator, it opens port 8888 in Windows Firewall for private networks and your local subnet only; on a network Windows classes as Public the dashboard stays closed.
 
@@ -116,7 +117,7 @@ Run:
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Liburn-Bajraktari/Touch-Dashboard/main/scripts/setup.sh)" < /dev/tty
 ```
 
-The script detects Arch, Debian/Ubuntu or Fedora, installs the system packages it needs (Python, PipeWire and WirePlumber, `playerctl`, `webkit2gtk-4.1`, `python-dbus`, `python-gobject`, `upower`), installs the latest release to `~/.local/share/Touch-Dashboard` (its source archive is checked against the release's `SHA256SUMS` first) and adds **Touch Dashboard** to your application menu. On other distributions it lists the packages to install yourself.
+The script detects Arch, Debian/Ubuntu or Fedora, installs the system packages it needs (Python, PipeWire and WirePlumber, `playerctl`, `webkit2gtk-4.1`, `python-dbus`, `python-gobject`, `upower`), installs the latest release to `~/.local/share/Touch-Dashboard` (its source archive is checked against the release's `SHA256SUMS` first) and adds **Detent** to your application menu. On other distributions it lists the packages to install yourself.
 
 ### Android
 
@@ -134,11 +135,11 @@ After that the app keeps itself up to date (see [Updating](#updating)).
 
 ### 1. Start the desktop app and find your IP
 
-Start **Touch Dashboard** on the PC. Its local IP address is shown in the tray icon's menu (right-click it) and in the desktop window's title bar, for example `192.168.1.50`.
+Start **Detent** on the PC. Its local IP address is shown in the tray icon's menu (right-click it) and in the desktop window's title bar, for example `192.168.1.50`.
 
 ### 2. Connect the tablet
 
-1. Open the Touch Dashboard app on the tablet.
+1. Open the Detent app on the tablet.
 2. On first launch it asks for the PC's IP address. Enter it and tap <kbd>Connect</kbd>. Use the address itself: host names such as `mypc.local` are refused.
 3. The tablet asks to pair. Check its name and tap <kbd>Request access</kbd>. It shows a six-digit code.
 4. On the PC, the dashboard window comes forward with a **Pairing request** showing a code. If it is the same code, click <kbd>Allow</kbd>. The request expires after a minute.
@@ -207,21 +208,21 @@ If the Discord tab then shows **Vesktop detected**, its arRPC bridge cannot cont
 
 <p align="center"><sub>Rendered from the app with fictional data.</sub></p>
 
-Add a key of type **Plugin → World of Warcraft** to open it. Its plates (NSRT note and encounter alerts, Raid & dungeons, Mythic+, world markers, the buff check, your characters' gold, bags and keys, keys plates from templates) are arranged with the pencil, on any screen. With the **Touch Dashboard** companion addon, installed from the page's settings and kept up to date by the app, keys run without opening chat and the page follows the game live. Everything about it, with pictures of every plate: **[docs/WOW.md](docs/WOW.md)**.
+Add a key of type **Plugin → World of Warcraft** to open it. Its plates (NSRT note and encounter alerts, Raid & dungeons, Mythic+, world markers, the buff check, your characters' gold, bags and keys, keys plates from templates) are arranged with the pencil, on any screen. With the **Detent** companion addon, installed from the page's settings and kept up to date by the app, keys run without opening chat and the page follows the game live. Everything about it, with pictures of every plate: **[docs/WOW.md](docs/WOW.md)**.
 
 ---
 
 ## Updating
 
 - **Desktop app:** it checks for new releases on start and every 30 minutes, and shows an update prompt in the desktop window and in a browser on the PC. <kbd>Update</kbd> downloads that release's installer and source archive, checks both against the release's `SHA256SUMS`, installs it in the background and restarts the app. A file that does not match stops the update.
-- **Android app:** it updates itself. When a newer app is released, the tablet offers <kbd>Update now</kbd> (or requires it, when the desktop app needs the newer version). The app downloads the APK from the GitHub release, checks it against the release's `SHA256SUMS` and checks that it is signed by the same key, then Android asks you to confirm. The first time, Android asks whether Touch Dashboard may install apps: turn on <kbd>Allow from this source</kbd> and come back. Android's installer then shows the update being installed and ends with <kbd>Open</kbd>, which brings you straight back to the dashboard.
+- **Android app:** it updates itself. When a newer app is released, the tablet offers <kbd>Update now</kbd> (or requires it, when the desktop app needs the newer version). The app downloads the APK from the GitHub release, checks it against the release's `SHA256SUMS` and checks that it is signed by the same key, then Android asks you to confirm. The first time, Android asks whether Detent may install apps: turn on <kbd>Allow from this source</kbd> and come back. Android's installer then shows the update being installed and ends with <kbd>Open</kbd>, which brings you straight back to the dashboard.
 - **Android apps from v0.11.0 and older** cannot update themselves. They show how to install the new app by hand: download it in Chrome, uninstall the old app, install the new one and pair again. Apps from before pairing (older than v0.11.0) cannot connect any more and only show this prompt.
 
 ---
 
 ## Security
 
-- **Local network only.** Touch Dashboard is built for your home network. Do not port-forward port 8888 or expose it to the internet in any other way.
+- **Local network only.** Detent is built for your home network. Do not port-forward port 8888 or expose it to the internet in any other way.
 - **Every device is paired and approved on the PC.** A tablet or a browser on another device sends a pairing request and shows a six-digit code; the PC shows the same code and asks you to allow or deny it. Requests expire after a minute, and the PC takes at most one at a time per device and five a minute. Only the desktop window and a browser on the PC itself connect without pairing. **Settings → Paired devices** lists every device; removing one cuts it off at once.
 - **Tokens are stored safely.** Your PC never stores pairing tokens in plain text (only irreversible cryptographic hashes), and checking a token takes the same amount of time whether it is right or wrong so no one can guess it by timing responses.
 - **Paired devices control, the PC configures.** A paired device can use media, volume, Discord, the soundboard and your macros, by ID only. Tablets cannot run terminal commands or access files outside your sounds folder. Settings, macros, soundboard pads, pairing and updates can only be changed on the PC. API keys, client secrets and sign-in tokens never leave the PC.

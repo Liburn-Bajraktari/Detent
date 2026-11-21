@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Touch Dashboard — Security Architecture & Threat Model</title>
+<title>Detent — Security Architecture & Threat Model</title>
 <style>
   @page {
     size: A4;
@@ -15,7 +15,7 @@
       color: #94a3b8;
     }
     @bottom-left {
-      content: "Touch Dashboard • Security Architecture & Threat Model Specification";
+      content: "Detent • Security Architecture & Threat Model Specification";
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 7.2pt;
       font-weight: 500;
@@ -311,7 +311,7 @@
 <div class="doc-header">
   <div>
     <div class="badge-top">SECURITY &amp; THREAT MODEL SPECIFICATION</div>
-    <div class="doc-title">Touch Dashboard Security Architecture</div>
+    <div class="doc-title">Detent Security Architecture</div>
     <div class="doc-subtitle">Authentication, Pairing Protocols, Network Isolation &amp; Defense-in-Depth</div>
   </div>
   <div class="meta-box">
@@ -324,7 +324,7 @@
 
 <h2><span class="section-num">01</span> Executive Summary &amp; LAN Threat Model</h2>
 <p>
-Touch Dashboard operates as a dual-surface system controller: a high-privilege Python backend running on the host workstation paired with touchscreens (Android tablets and browsers). The server binds to <code>0.0.0.0:8888</code> so handheld devices on the local network can connect seamlessly. Because local area networks cannot be treated as secure enclaves, Touch Dashboard operates under a <strong>zero-trust LAN assumption</strong>, actively mitigating four key threat vectors:
+Detent operates as a dual-surface system controller: a high-privilege Python backend running on the host workstation paired with touchscreens (Android tablets and browsers). The server binds to <code>0.0.0.0:8888</code> so handheld devices on the local network can connect seamlessly. Because local area networks cannot be treated as secure enclaves, Detent operates under a <strong>zero-trust LAN assumption</strong>, actively mitigating four key threat vectors:
 </p>
 <div class="grid-2">
   <div class="card">
@@ -414,7 +414,7 @@ All HTTP responses pass through <code>_SecurityHeaders</code>, injecting strict 
                          form-action 'none'; frame-ancestors 'none'
 <span class="keyword">X-Frame-Options:</span> DENY  |  <span class="keyword">X-Content-Type-Options:</span> nosniff  |  <span class="keyword">Cache-Control:</span> no-cache, must-revalidate</pre>
 <p>
-<strong>Conditional Evaluation Scoping:</strong> <code>pywebview</code> relies on <code>new Function</code> for its internal JS bridge on the desktop window. Touch Dashboard dynamically injects <code>'unsafe-eval'</code> <em>only</em> into responses served to <code>127.0.0.1</code> loopback. Pages served across the LAN never receive <code>'unsafe-eval'</code>, reducing attack surface on mobile clients.
+<strong>Conditional Evaluation Scoping:</strong> <code>pywebview</code> relies on <code>new Function</code> for its internal JS bridge on the desktop window. Detent dynamically injects <code>'unsafe-eval'</code> <em>only</em> into responses served to <code>127.0.0.1</code> loopback. Pages served across the LAN never receive <code>'unsafe-eval'</code>, reducing attack surface on mobile clients.
 </p>
 
 <!-- PAGE 2 -->
@@ -428,7 +428,7 @@ All HTTP responses pass through <code>_SecurityHeaders</code>, injecting strict 
     <text x="120" y="25" fill="#38bdf8" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="sans-serif">Connecting Tablet / Client</text>
 
     <rect x="285" y="6" width="190" height="28" rx="4" fill="#0f172a"/>
-    <text x="380" y="25" fill="#f8fafc" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="sans-serif">Touch Dashboard Server</text>
+    <text x="380" y="25" fill="#f8fafc" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="sans-serif">Detent Server</text>
 
     <rect x="545" y="6" width="190" height="28" rx="4" fill="#0f172a"/>
     <text x="640" y="25" fill="#4ade80" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="sans-serif">Host PC Desktop (User)</text>
@@ -645,7 +645,7 @@ Spotify and Discord OAuth login flows require authentication on the host PC. Aut
 
 <h2><span class="section-num">08</span> Security Verification Matrix</h2>
 <p>
-Touch Dashboard maintains a comprehensive automated security test suite in <code>tests/test_security.py</code>. All 32 security tests execute hermetically on every commit and release build:
+Detent maintains a comprehensive automated security test suite in <code>tests/test_security.py</code>. All 32 security tests execute hermetically on every commit and release build:
 </p>
 <table>
   <thead>
@@ -723,7 +723,7 @@ Touch Dashboard maintains a comprehensive automated security test suite in <code
 <div class="callout callout-amber" style="margin-top: 8px;">
   <div class="callout-title">Defense Summary: Zero-Trust LAN Assurance</div>
   <p>
-    By enforcing strict origin filtering, zero-knowledge token hashing, constant-time database matching, full configuration redaction, and isolated local control tokens, Touch Dashboard provides a hardened, commercial-grade security model suitable for exposed multi-device home and office networks.
+    By enforcing strict origin filtering, zero-knowledge token hashing, constant-time database matching, full configuration redaction, and isolated local control tokens, Detent provides a hardened, commercial-grade security model suitable for exposed multi-device home and office networks.
   </p>
 </div>
 

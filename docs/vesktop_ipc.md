@@ -1,6 +1,6 @@
 # Enabling Local IPC in Vesktop
 
-If you are using **Vesktop** instead of the official Discord client, Touch Dashboard's Discord integration (Mute/Deafen controls, voice state display) might not connect automatically. 
+If you are using **Vesktop** instead of the official Discord client, Detent's Discord integration (Mute/Deafen controls, voice state display) might not connect automatically. 
 
 Vesktop requires the **Local IPC (Inter-Process Communication)** server to be explicitly enabled in its settings for external applications to connect to it.
 
@@ -25,4 +25,4 @@ Your `settings.json` should contain lines looking like this:
 
 7. **Save the file** and **restart Vesktop**.
 
-Once Vesktop is restarted, the IPC socket will be active, and Touch Dashboard will automatically discover and connect to it!
+Once Vesktop is restarted, the IPC socket will be active, and Detent will automatically discover and connect to it!

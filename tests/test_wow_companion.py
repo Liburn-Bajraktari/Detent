@@ -801,7 +801,7 @@ def test_wow_is_told_once_when_a_newer_addon_is_out_with_a_dashboard_update(game
     core.run("bw_version")
     core.run("bw_version")
     told = [p for p in json.loads(game.cmd("printed")) if " is out " in p]
-    assert len(told) == 1 and "addon 99.0.0 is out (this is 2.0.0): update Touch Dashboard on your PC" in told[0]
+    assert len(told) == 1 and "addon 99.0.0 is out (this is 2.0.0): update Detent on your PC" in told[0]
 
 def test_a_pull_whose_numbers_the_game_hides_is_still_seen(game, tmp_path):
     core, pressed, _ = make(game, tmp_path)

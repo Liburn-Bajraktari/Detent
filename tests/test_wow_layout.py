@@ -363,7 +363,7 @@ def test_a_command_answer_carries_its_data(app, wow):
 def old_companion(tmp_path, version="1.0.0"):
     target = tmp_path / "_retail_" / "Interface" / "AddOns" / wow_addons.COMPANION
     target.mkdir(parents=True)
-    (target / f"{wow_addons.COMPANION}.toc").write_text(f"## Title: Touch Dashboard\n## Version: {version}\n", encoding="utf-8")
+    (target / f"{wow_addons.COMPANION}.toc").write_text(f"## Title: Detent\n## Version: {version}\n", encoding="utf-8")
     return target
 
 
