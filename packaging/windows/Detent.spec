@@ -2,12 +2,12 @@
 # single exe that unpacks itself on every start, and antivirus flags it less).
 #
 #   pip install -r requirements-build.txt
-#   pyinstaller packaging/windows/TouchDashboard.spec --noconfirm
+#   pyinstaller packaging/windows/Detent.spec --noconfirm
 #
 # The page, its assets, the companion addon and version.json go into the
 # bundle's _internal folder, where server.py finds them through sys._MEIPASS
 # (RESOURCE_DIR) and wow_addons through its own __file__. Then
-# packaging/windows/TouchDashboard.iss makes the installer from dist/.
+# packaging/windows/Detent.iss makes the installer from dist/.
 import os
 import sys
 
@@ -46,8 +46,8 @@ exe = EXE(  # noqa: F821
     a.scripts,
     [],
     exclude_binaries=True,
-    name="TouchDashboard",
+    name="Detent",
     icon=os.path.join(ROOT, "static", "favicon.ico"),
     console=False,                        # a window and a tray icon, no console
 )
-coll = COLLECT(exe, a.binaries, a.datas, name="TouchDashboard")  # noqa: F821
+coll = COLLECT(exe, a.binaries, a.datas, name="Detent")  # noqa: F821

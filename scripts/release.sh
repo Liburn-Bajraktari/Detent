@@ -90,15 +90,15 @@ fi
 # Build the Android app from android/ first (scripts/build-android.sh): if it
 # fails, nothing has been committed, pushed or published yet.
 if [ "$APK_BUILD" = true ]; then
-    NEW_APK="TouchDashboard-${VERSION}.apk"
+    NEW_APK="Detent-${VERSION}.apk"
     echo -e "${CYAN}Building $NEW_APK from android/...${NC}"
     if ! ./scripts/build-android.sh "$VERSION" "$NEW_APK"; then
         echo -e "${RED}Error: the Android build failed; nothing was released.${NC}"
         exit 1
     fi
     # Keep only this release's APK in the repo root (APKs are gitignored).
-    for old in TouchDashboard-*.apk; do
-        [ "$old" != "$NEW_APK" ] && rm -f -- "$old"
+    for old in Detent-*.apk TouchDashboard-*.apk; do
+        [ -e "$old" ] && [ "$old" != "$NEW_APK" ] && rm -f -- "$old"
     done
     APK_FILE="$NEW_APK"
 fi
@@ -209,8 +209,8 @@ upload_asset() {
 ASSET_DIR=$(mktemp -d)
 cp scripts/install.ps1 scripts/setup.sh "$ASSET_DIR/"
 for format in tar.gz zip; do
-    if ! git archive --format="$format" --prefix="Touch-Dashboard-${VERSION#v}/" \
-            -o "$ASSET_DIR/touch-dashboard-$VERSION.$format" "refs/tags/$VERSION"; then
+    if ! git archive --format="$format" --prefix="Detent-${VERSION#v}/" \
+            -o "$ASSET_DIR/detent-$VERSION.$format" "refs/tags/$VERSION"; then
         echo -e "${RED}Error: could not archive tag $VERSION; nothing was uploaded.${NC}"
         exit 1
     fi
@@ -219,20 +219,29 @@ ADDON_VERSION=$(git show "refs/tags/$VERSION:addon/TouchDashboard/TouchDashboard
     | sed -n 's/^## Version: *//p' | tr -d '\r')
 ADDON_ZIP=""
 if [ -n "$ADDON_VERSION" ]; then
-    ADDON_ZIP="TouchDashboard-addon-$ADDON_VERSION.zip"
+    ADDON_ZIP="Detent-addon-$ADDON_VERSION.zip"
     if ! git archive --format=zip -o "$ASSET_DIR/$ADDON_ZIP" "refs/tags/$VERSION:addon"; then
         echo -e "${RED}Error: could not archive the addon at $VERSION; nothing was uploaded.${NC}"
         exit 1
     fi
 fi
-[ -n "$APK_FILE" ] && cp "$APK_FILE" "$ASSET_DIR/"
+# Apps from before the rename to Detent fetch TouchDashboard-<tag>.apk by name, and
+# their desktop server offers the first .apk it finds, so that copy goes up first.
+# Drop it once every tablet runs v1.0.1 or newer.
+LEGACY_APK=""
+if [ -n "$APK_FILE" ]; then
+    cp "$APK_FILE" "$ASSET_DIR/"
+    LEGACY_APK="TouchDashboard-$VERSION.apk"
+    cp "$APK_FILE" "$ASSET_DIR/$LEGACY_APK"
+fi
 (cd "$ASSET_DIR" && sha256sum -- * > SHA256SUMS)
 
 upload_asset "$ASSET_DIR/install.ps1" "text/plain"
 upload_asset "$ASSET_DIR/setup.sh" "text/plain"
-upload_asset "$ASSET_DIR/touch-dashboard-$VERSION.tar.gz" "application/gzip"
-upload_asset "$ASSET_DIR/touch-dashboard-$VERSION.zip" "application/zip"
+upload_asset "$ASSET_DIR/detent-$VERSION.tar.gz" "application/gzip"
+upload_asset "$ASSET_DIR/detent-$VERSION.zip" "application/zip"
 [ -n "$ADDON_ZIP" ] && upload_asset "$ASSET_DIR/$ADDON_ZIP" "application/zip"
+[ -n "$LEGACY_APK" ] && upload_asset "$ASSET_DIR/$LEGACY_APK" "application/vnd.android.package-archive"
 [ -n "$APK_FILE" ] && upload_asset "$ASSET_DIR/$(basename "$APK_FILE")" "application/vnd.android.package-archive"
 upload_asset "$ASSET_DIR/SHA256SUMS" "text/plain"
 rm -rf "$ASSET_DIR"

@@ -7,11 +7,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases/latest"><img src="https://img.shields.io/github/v/release/Liburn-Bajraktari/Touch-Dashboard?style=flat-square&label=Release&color=3b82f6" alt="Latest Release"></a>
+  <a href="https://github.com/Liburn-Bajraktari/Detent/releases/latest"><img src="https://img.shields.io/github/v/release/Liburn-Bajraktari/Detent?style=flat-square&label=Release&color=3b82f6" alt="Latest Release"></a>
   <a href="#install"><img src="https://img.shields.io/badge/Platform-Linux%20%7C%20Windows%20%7C%20Android-10b981?style=flat-square" alt="Platform"></a>
   <a href="#platform-notes"><img src="https://img.shields.io/badge/Linux%20Audio-PipeWire%20%2F%20MPRIS-f59e0b?style=flat-square" alt="Linux Audio"></a>
   <a href="#how-it-works"><img src="https://img.shields.io/badge/Local%20Server-Port%208888-8b5cf6?style=flat-square" alt="Local Server Port 8888"></a>
-  <a href="docs/Touch_Dashboard_Security_Architecture.pdf"><img src="https://img.shields.io/badge/Docs-Security%20Whitepaper%20(PDF)-ef4444?style=flat-square" alt="Security Architecture Whitepaper"></a>
+  <a href="docs/Detent_Security_Architecture.pdf"><img src="https://img.shields.io/badge/Docs-Security%20Whitepaper%20(PDF)-ef4444?style=flat-square" alt="Security Architecture Whitepaper"></a>
 </p>
 
 <p align="center">
@@ -81,11 +81,11 @@ Detent is client and server:
 > [!WARNING]
 > **Not yet tried on a real Windows PC.** The Windows side is built and tested against stand-ins and on GitHub's Windows runners only. Reports welcome.
 
-**The installer (recommended).** From the [latest release](https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases/latest), download `TouchDashboard-Setup-vX.Y.Z.exe` and run it. It needs no Python and no administrator rights; it installs to `%LOCALAPPDATA%\Programs\Touch Dashboard`, adds Detent to Installed Apps, and offers a desktop shortcut, starting with Windows, and the firewall rule tablets need (that one asks for administrator rights once). The app updates itself through the next release's installer, checked against its `SHA256SUMS`. It is not code-signed yet, so Windows SmartScreen asks before the first run (**More info → Run anyway**).
+**The installer (recommended).** From the [latest release](https://github.com/Liburn-Bajraktari/Detent/releases/latest), download `Detent-Setup-vX.Y.Z.exe` and run it. It needs no Python and no administrator rights; it installs to `%LOCALAPPDATA%\Programs\Detent`, adds Detent to Installed Apps, and offers a desktop shortcut, starting with Windows, and the firewall rule tablets need (that one asks for administrator rights once). The app updates itself through the next release's installer, checked against its `SHA256SUMS`. It is not code-signed yet, so Windows SmartScreen asks before the first run (**More info → Run anyway**).
 
 **Or the PowerShell installer**, which runs the app from Python in a folder of its own:
 
-1. From the [latest release](https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases/latest), download `install.ps1` and `SHA256SUMS` into the same folder.
+1. From the [latest release](https://github.com/Liburn-Bajraktari/Detent/releases/latest), download `install.ps1` and `SHA256SUMS` into the same folder.
 2. Open PowerShell as administrator (so the installer can add the firewall rule), go to that folder and check the installer against the published checksum. It prints `True` when they match; if it prints `False`, delete the file and do not run it:
    ```powershell
    (Get-FileHash .\install.ps1 -Algorithm SHA256).Hash -eq ((Select-String -Path .\SHA256SUMS -Pattern ' install\.ps1$').Line -split '\s+')[0]
@@ -104,7 +104,7 @@ The installer also has a repair mode, an uninstaller, and an option (<kbd>4</kbd
 To download and run the installer in one step, without the checksum check:
 
 ```powershell
-irm https://raw.githubusercontent.com/Liburn-Bajraktari/Touch-Dashboard/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/Liburn-Bajraktari/Detent/main/scripts/install.ps1 | iex
 ```
 
 This runs the installer as it is on the `main` branch at that moment, unchecked. It then installs the latest release the same way, checked against its `SHA256SUMS`.
@@ -114,14 +114,14 @@ This runs the installer as it is on the `main` branch at that moment, unchecked.
 Run:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/Liburn-Bajraktari/Touch-Dashboard/main/scripts/setup.sh)" < /dev/tty
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Liburn-Bajraktari/Detent/main/scripts/setup.sh)" < /dev/tty
 ```
 
 The script detects Arch, Debian/Ubuntu or Fedora, installs the system packages it needs (Python, PipeWire and WirePlumber, `playerctl`, `webkit2gtk-4.1`, `python-dbus`, `python-gobject`, `upower`), installs the latest release to `~/.local/share/Touch-Dashboard` (its source archive is checked against the release's `SHA256SUMS` first) and adds **Detent** to your application menu. On other distributions it lists the packages to install yourself.
 
 ### Android
 
-1. Download the latest `TouchDashboard-vX.Y.Z.apk` from the [Releases](https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases) page, or with option <kbd>4</kbd> of the Windows installer.
+1. Download the latest `Detent-vX.Y.Z.apk` from the [Releases](https://github.com/Liburn-Bajraktari/Detent/releases) page, or with option <kbd>4</kbd> of the Windows installer.
 2. Copy it to your tablet or phone and install it. You may need to allow installing apps from unknown sources.
 
 After that the app keeps itself up to date (see [Updating](#updating)).
@@ -231,7 +231,7 @@ Add a key of type **Plugin → World of Warcraft** to open it. Its plates (NSRT 
 - **Updates install releases only.** Installers and the in-app update fetch a published release, never the latest code on `main`, and check every file against the `SHA256SUMS` published with it. Drafts and pre-releases are never offered. The Android app downloads only from this repository's releases (the PC can name a version, not an address) and installs only an APK signed with its own release key; Android enforces the same key on every update.
 
 > [!NOTE]
-> For a full, in-depth technical breakdown of the threat model, network filtering, and cryptographic pairing protocol, see the **[Security Architecture Whitepaper (PDF)](docs/Touch_Dashboard_Security_Architecture.pdf)**.
+> For a full, in-depth technical breakdown of the threat model, network filtering, and cryptographic pairing protocol, see the **[Security Architecture Whitepaper (PDF)](docs/Detent_Security_Architecture.pdf)**.
 
 ---
 
@@ -260,8 +260,8 @@ Add a key of type **Plugin → World of Warcraft** to open it. Its plates (NSRT 
 ### Run from source
 
 ```bash
-git clone https://github.com/Liburn-Bajraktari/Touch-Dashboard.git
-cd Touch-Dashboard
+git clone https://github.com/Liburn-Bajraktari/Detent.git
+cd Detent
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -312,7 +312,7 @@ The suite covers the HTTP and WebSocket API, Host and Origin checks, pairing, ro
 ./scripts/release.sh v1.2.3 --apk    # also rebuild the Android app
 ```
 
-The script sets the version in `version.json`, commits everything in the working tree as `Release: <tag>`, tags and pushes, and creates the GitHub release with `install.ps1`, `setup.sh`, the source archives the installers download (`touch-dashboard-<tag>.tar.gz` and `.zip`, built from the tag with `git archive`), the WoW companion addon on its own (`TouchDashboard-addon-<version>.zip`), the APK (with `--apk`) and a `SHA256SUMS` file covering them all. Installers and the in-app update refuse a release without these files. The release is also mirrored to Codeberg, only so installs from before the move to GitHub keep finding updates. With `--apk` it first builds the Android app from `android/` with `scripts/build-android.sh` (the current `templates/` and `static/` bundled in, the version code taken from the tag, signed with the release key), so a failed build stops the release before anything is committed; it then uploads the APK and raises the required Android app version. Building needs the Android SDK and the release key: see [docs/android-signing.md](docs/android-signing.md).
+The script first checks that it runs on a clean `main` equal to `origin/main`, then sets the version in `version.json`, commits as `Release: <tag>`, tags and pushes, and creates the GitHub release with `install.ps1`, `setup.sh`, the source archives the installers download (`detent-<tag>.tar.gz` and `.zip`, built from the tag with `git archive`), the WoW companion addon on its own (`Detent-addon-<version>.zip`), the APK (with `--apk`) and a `SHA256SUMS` file covering them all. Installers and the in-app update refuse a release without these files. The release is also mirrored to Codeberg, only so installs from before the move to GitHub keep finding updates. With `--apk` it first builds the Android app from `android/` with `scripts/build-android.sh` (the current `templates/` and `static/` bundled in, the version code taken from the tag, signed with the release key), so a failed build stops the release before anything is committed; it then uploads the APK and raises the required Android app version. Building needs the Android SDK and the release key: see [docs/android-signing.md](docs/android-signing.md).
 
 ### References
 
@@ -323,5 +323,5 @@ The script sets the version in `version.json`, commits everything in the working
 ---
 
 <p align="center">
-  <sub><a href="#touch-dashboard">▲ Back to top</a></sub>
+  <sub><a href="#detent">▲ Back to top</a></sub>
 </p>

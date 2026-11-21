@@ -923,7 +923,7 @@ def test_on_windows_the_app_exits_for_the_installer_to_finish(monkeypatch, tmp_p
 
 def test_a_frozen_windows_app_updates_through_its_own_silent_installer(monkeypatch):
     monkeypatch.setattr(server, "FROZEN", True)
-    assert server._installer_name("v0.17.0") == "TouchDashboard-Setup-v0.17.0.exe"   # the release workflow's asset
+    assert server._installer_name("v0.17.0") == "Detent-Setup-v0.17.0.exe"   # the release workflow's asset
     argv = server._installer_argv("C:\\Temp\\setup.exe")
     assert argv[0] == "C:\\Temp\\setup.exe" and "/VERYSILENT" in argv
     assert f"/TDWAIT={os.getpid()}" in argv                         # it waits for this app to exit

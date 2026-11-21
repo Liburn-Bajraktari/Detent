@@ -19,11 +19,11 @@ $ErrorActionPreference = "Stop"
 # GitHub takes TLS 1.2 or newer, which Windows PowerShell 5.1 may not offer unless asked.
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 $RepoOwner = "Liburn-Bajraktari"
-$RepoName = "Touch-Dashboard"
+$RepoName = "Detent"
 if ($env:TARGET_DIR) {
     $InstallDir = $env:TARGET_DIR.TrimEnd('\')
 } else {
-    $InstallDir = "$env:LOCALAPPDATA\$RepoName"
+    $InstallDir = "$env:LOCALAPPDATA\Touch-Dashboard"   # named before the rename to Detent; kept so updates land in place
 }
 $VbsLauncher = "$InstallDir\TouchDashboard.vbs"
 $ApiUrl = "https://api.github.com/repos/$RepoOwner/$RepoName"
@@ -233,7 +233,9 @@ function Set-StartWithWindows {
 # On a network Windows classes as Public (cafes, hotels) the dashboard stays closed.
 function Set-FirewallRule {
     Write-Color "[*] Configuring Windows Firewall for port 8888 (private networks only)..." "Cyan"
-    $ruleName = "Touch Dashboard Backend"
+    $ruleName = "Detent Backend"
+    # The rule's name before the rename to Detent
+    Remove-NetFirewallRule -DisplayName "Touch Dashboard Backend" -ErrorAction SilentlyContinue
     $ruleExists = Get-NetFirewallRule -DisplayName $ruleName -ErrorAction SilentlyContinue
     try {
         if ($ruleExists) {
@@ -259,14 +261,14 @@ function Start-App {
 # Download release $tag, check it, and extract it to a folder of its own. Returns that folder.
 function Get-Release {
     param([string]$tag)
-    $zip = Join-Path $env:TEMP "touch-dashboard-$tag.zip"
-    Get-VerifiedFile $tag "touch-dashboard-$tag.zip" $zip
+    $zip = Join-Path $env:TEMP "detent-$tag.zip"
+    Get-VerifiedFile $tag "detent-$tag.zip" $zip
     Write-Step "Downloaded and checked against SHA256SUMS" 40
-    $extract = Join-Path $env:TEMP "TouchDashboard_Update_$tag"
+    $extract = Join-Path $env:TEMP "Detent_Update_$tag"
     if (Test-Path $extract) { Remove-Item -Recurse -Force $extract }
     Expand-Archive -Path $zip -DestinationPath $extract -Force
     Remove-Item $zip -Force
-    # The archive holds one folder, touch-dashboard-<tag>
+    # The archive holds one folder, Detent-<version>
     return (Get-ChildItem -Path $extract -Directory | Select-Object -First 1).FullName
 }
 
@@ -385,6 +387,7 @@ function Uninstall-App {
         }
         Set-StartWithWindows $false
         Write-Color "[*] Removing firewall rules..." "Cyan"
+        try { Remove-NetFirewallRule -DisplayName "Detent Backend" -ErrorAction SilentlyContinue } catch {}
         try { Remove-NetFirewallRule -DisplayName "Touch Dashboard Backend" -ErrorAction SilentlyContinue } catch {}
         if (Test-Path $DataDir) {
             $data = Read-Host "[?] Also delete your settings, paired tablets and sign-ins ($DataDir)? (Y/N)"
