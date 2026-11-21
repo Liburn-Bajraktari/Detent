@@ -3,7 +3,7 @@
 # Detent GitHub Releaser
 
 REPO_OWNER="Liburn-Bajraktari"
-REPO_NAME="Touch-Dashboard"
+REPO_NAME="Detent"
 TOKEN_FILE="$HOME/.config/touch-dashboard/.github_token"
 
 CYAN='\033[0;36m'
@@ -46,6 +46,27 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+# Release only what is on GitHub's main. A local main that is behind or has
+# diverged would tag and publish a commit main never gets (v1.0.0 did).
+if [ "$(git rev-parse --abbrev-ref HEAD)" != "main" ]; then
+    echo -e "${RED}Error: check out main first; nothing was released.${NC}"
+    exit 1
+fi
+if [ -n "$(git status --porcelain)" ]; then
+    echo -e "${RED}Error: the working tree has changes; commit or stash them first. Nothing was released.${NC}"
+    git status --short
+    exit 1
+fi
+if ! git fetch -q origin main; then
+    echo -e "${RED}Error: could not fetch origin/main; nothing was released.${NC}"
+    exit 1
+fi
+if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+    echo -e "${RED}Error: local main is not origin/main; nothing was released.${NC}"
+    echo -e "Run ${YELLOW}git pull --ff-only${NC} (or, if it has diverged, ${YELLOW}git reset --hard origin/main${NC}) and try again."
+    exit 1
+fi
 
 # Load or ask for token
 if [ -f "$TOKEN_FILE" ]; then
@@ -97,9 +118,18 @@ with open('version.json', 'w') as f:
 echo -e "${CYAN}Committing and pushing changes...${NC}"
 git add -A
 git commit -m "Release: $VERSION" || true
-git push origin main || true
+# Stop before tagging when main cannot be pushed: a tag on an unpushed commit
+# publishes code that main does not have.
+if ! git push origin main; then
+    echo -e "${RED}Error: pushing main failed; no tag or release was made.${NC}"
+    echo -e "Undo the local release commit with ${YELLOW}git reset --hard origin/main${NC}, then run git pull and try again."
+    exit 1
+fi
 git tag -f "$VERSION" -m "Release $VERSION" || true
-git push origin "$VERSION" || true
+if ! git push origin "$VERSION"; then
+    echo -e "${RED}Error: pushing tag $VERSION failed; no release was made.${NC}"
+    exit 1
+fi
 
 echo -e "${CYAN}Creating Release $VERSION on GitHub...${NC}"
 
