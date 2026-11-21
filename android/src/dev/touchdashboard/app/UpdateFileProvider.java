@@ -17,13 +17,13 @@ import java.util.regex.Pattern;
  *
  * Not exported: the installer reaches a file only through the read grant on
  * AppUpdater's install intent, and only a release APK in cache/updates exists
- * here (content://dev.touchdashboard.app.updates/TouchDashboard-vX.Y.Z.apk).
+ * here (content://dev.touchdashboard.app.updates/Detent-vX.Y.Z.apk).
  */
 public class UpdateFileProvider extends ContentProvider {
 
     static final String AUTHORITY = "dev.touchdashboard.app.updates";
     static final String APK_TYPE = "application/vnd.android.package-archive";
-    private static final Pattern NAME = Pattern.compile("TouchDashboard-v\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.apk");
+    private static final Pattern NAME = Pattern.compile("Detent-v\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.apk");
 
     static Uri uriFor(File apk) {
         return new Uri.Builder().scheme("content").authority(AUTHORITY).appendPath(apk.getName()).build();

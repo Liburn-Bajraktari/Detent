@@ -75,7 +75,7 @@ GLYPH_RE = re.compile(r"[a-z][a-z0-9-]{0,39}")
 PLACEHOLDER_RE = re.compile(r"\{([a-z_]+)\}")
 VERSION_RE = re.compile(r"^##\s*Version:\s*([0-9][0-9A-Za-z.\-]{0,15})\s*$", re.M)
 # The companion on its own in each GitHub release (release.sh): its version is in the name.
-ADDON_ASSET_RE = re.compile(r"^TouchDashboard-addon-(\d+(?:\.\d+){1,3})\.zip$")
+ADDON_ASSET_RE = re.compile(r"^(?:Detent|TouchDashboard)-addon-(\d+(?:\.\d+){1,3})\.zip$")
 
 SLOTS = tuple(f"F{n}" for n in range(1, 13))
 SLOT_MODIFIERS = ("KEY_LEFTCTRL", "KEY_LEFTALT", "KEY_LEFTSHIFT")

@@ -4,7 +4,7 @@ pkgver=0.8.8
 pkgrel=1
 pkgdesc="Touch-friendly FastAPI system dashboard with a PyWebView desktop wrapper"
 arch=('any')
-url="https://github.com/Liburn-Bajraktari/Touch-Dashboard"
+url="https://github.com/Liburn-Bajraktari/Detent"
 license=('MIT')
 depends=(
   'python'
@@ -30,12 +30,12 @@ optdepends=(
   'pulseaudio: pactl compatibility command'
   'appmenu-gtk-module: suppress pywebview GTK menu warning'
 )
-source=("https://github.com/Liburn-Bajraktari/Touch-Dashboard/archive/refs/tags/v${pkgver}.tar.gz")
+source=("https://github.com/Liburn-Bajraktari/Detent/archive/refs/tags/v${pkgver}.tar.gz")
 sha256sums=('e7df47811e101eb781f853a16e2ea215041d364764dc942a7d8de8d5f8acb8df')
 
 package() {
-  # GitHub archives extract as Touch-Dashboard-<version>/
-  cd "$srcdir/Touch-Dashboard-${pkgver}"
+  # GitHub archives extract as Detent-<version>/ (the repository name)
+  cd "$srcdir/Detent-${pkgver}"
 
   install -dm755 "$pkgdir/opt/touch-dashboard"
   install -Dm755 *.py "$pkgdir/opt/touch-dashboard/"

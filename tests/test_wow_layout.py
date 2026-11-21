@@ -464,6 +464,8 @@ def test_the_newest_released_companion_is_read_from_githubs_release_list():
                 rel("v0.16.0", "TouchDashboard-addon-2.5.0.zip"), rel("v0.11.0", "TouchDashboard-v0.11.0.apk")]
     assert wow_addons.latest_companion(releases) == "2.6.0"
     assert wow_addons.latest_companion([rel("v0.11.0", "TouchDashboard-v0.11.0.apk")]) is None
+    # Releases since the rename to Detent name it Detent-addon-<version>.zip
+    assert wow_addons.latest_companion([rel("v1.0.1", "detent-v1.0.1.zip", "Detent-addon-2.7.3.zip")] + releases) == "2.7.3"
     assert wow_addons.latest_companion({"message": "API rate limit exceeded"}) is None
 
 

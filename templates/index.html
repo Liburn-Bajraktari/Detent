@@ -9813,7 +9813,7 @@
 
         // The newest release with an APK, from the server's update_apk_url.
         function latestAppTag(d) {
-            const m = String(d.update_apk_url || '').match(/\/releases\/download\/(v\d+\.\d+\.\d+)\/TouchDashboard-\1\.apk$/);
+            const m = String(d.update_apk_url || '').match(/\/releases\/download\/(v\d+\.\d+\.\d+)\/(?:Detent|TouchDashboard)-\1\.apk$/);
             return m ? m[1] : null;
         }
 
@@ -9877,7 +9877,7 @@
 
             // An app from before self-update: signed with another key, so Android
             // installs the new one only after the old one is removed.
-            const url = d.update_apk_url || 'https://github.com/Liburn-Bajraktari/Touch-Dashboard/releases/latest';
+            const url = d.update_apk_url || 'https://github.com/Liburn-Bajraktari/Detent/releases/latest';
             const safeUrl = escapeHtml(url);
             title.textContent = 'App update required';
             message.innerHTML = `This desktop version needs Android app ${escapeHtml(d.req_apk_version)} or newer; you have ${escapeHtml(installed)}.<br><br>`

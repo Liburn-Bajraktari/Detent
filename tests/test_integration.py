@@ -520,6 +520,26 @@ def test_update_check_skips_drafts_and_prereleases():
         server.update_available, server.latest_version, server.update_apk_url, server.update_notes = saved
 
 
+def test_update_check_prefers_the_detent_apk():
+    """Releases since the rename carry TouchDashboard-<tag>.apk first, for older
+    tablets; this server offers Detent-<tag>.apk."""
+    import asyncio
+    import io
+    import json
+    import server
+
+    names = ["TouchDashboard-v9.7.0.apk", "Detent-v9.7.0.apk"]
+    listing = [{"tag_name": "v9.7.0", "prerelease": False, "draft": False, "body": "",
+                "assets": [{"name": n, "browser_download_url": f"https://example.invalid/v9.7.0/{n}"} for n in names]}]
+    saved = (server.update_available, server.latest_version, server.update_apk_url, server.update_notes)
+    with patch("server.urllib.request.urlopen", return_value=io.BytesIO(json.dumps(listing).encode())):
+        asyncio.run(server.check_for_updates())
+    try:
+        assert server.update_apk_url.endswith("/v9.7.0/Detent-v9.7.0.apk")
+    finally:
+        server.update_available, server.latest_version, server.update_apk_url, server.update_notes = saved
+
+
 def test_update_check_says_when_it_could_not_check():
     """Offline, the answer must not read as "up to date": the page says the check failed."""
     import asyncio
